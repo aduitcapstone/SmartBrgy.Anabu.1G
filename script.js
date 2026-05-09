@@ -3,7 +3,7 @@
 // ── API Configuration ──
 const API = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
   ? 'http://localhost:5000'
-  : 'https://smartbrgy-api.onrender.com';
+  : 'https://smartbrgy-anabu-1g.onrender.com';
 
 // ═══════════════════════════════════════
 // SAMPLE DATA — DOB-based (no RFID in resident record, age computed)
