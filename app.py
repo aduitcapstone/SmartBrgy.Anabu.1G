@@ -78,7 +78,7 @@ def handle_options():
         r.headers['Access-Control-Allow-Headers'] = 'Content-Type,Authorization'
         return r, 200
 
-DB_PATH = os.path.join(os.path.dirname(__file__), 'smartbrgy.db')
+DB_PATH = '/data/smartbrgy.db'
 
 # ─────────────────────────────────────────
 # DB HELPERS
