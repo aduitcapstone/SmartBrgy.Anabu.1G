@@ -7,24 +7,26 @@
  * Lahat ng save/submit/update → naka-save na sa SQLite database
  */
 
-const API = 'http://localhost:5000';
+var _DB_API = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname === '')
+  ? 'http://localhost:5000'
+  : 'https://smartbrgy-api.onrender.com';
 
 // ── HTTP helpers ──────────────────────────────────────────────
 const http = {
   async get(path) {
-    try { const r = await fetch(API+path); return r.ok ? r.json() : null; }
+    try { const r = await fetch(_DB_API+path); return r.ok ? r.json() : null; }
     catch(e) { console.warn('GET',path,e.message); return null; }
   },
   async post(path, body) {
-    try { const r = await fetch(API+path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}); return r.json(); }
+    try { const r = await fetch(_DB_API+path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}); return r.json(); }
     catch(e) { console.warn('POST',path,e.message); return null; }
   },
   async put(path, body) {
-    try { const r = await fetch(API+path,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}); return r.json(); }
+    try { const r = await fetch(_DB_API+path,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}); return r.json(); }
     catch(e) { console.warn('PUT',path,e.message); return null; }
   },
   async del(path) {
-    try { const r = await fetch(API+path,{method:'DELETE'}); return r.json(); }
+    try { const r = await fetch(_DB_API+path,{method:'DELETE'}); return r.json(); }
     catch(e) { console.warn('DELETE',path,e.message); return null; }
   },
 };
@@ -59,9 +61,23 @@ window.hideCertRequest = async function(code) {
   }
 };
 function dbToIncident(r) {
+  let atts = r.attachments;
+  if (Array.isArray(atts)) {
+    // already correct
+  } else if (typeof atts === 'string' && atts) {
+    try {
+      atts = JSON.parse(atts);
+      if (!Array.isArray(atts)) {
+        try { atts = JSON.parse(atts); } catch(e) { atts = []; }
+        if (!Array.isArray(atts)) atts = [];
+      }
+    } catch(e) { atts = []; }
+  } else {
+    atts = [];
+  }
   return { id:r.id, type:r.type, loc:r.location, date:r.date,
     reported:r.reported_by, complainee:r.complainee||'', description:r.description||'',
-    status:r.status, severity:r.severity };
+    status:r.status, severity:r.severity, attachments: atts };
 }
 function dbToUser(r) {
   return { id:r.id, name:r.name, role:r.role, access:r.access,
@@ -157,6 +173,7 @@ async function reloadCertRequests() {
   CERT_REQUESTS.length = 0; data.map(dbToCertReq).forEach(r => CERT_REQUESTS.push(r));
   if (typeof renderCertKanban === 'function') renderCertKanban();
   if (typeof renderCertRequests === 'function') renderCertRequests();
+  if (typeof renderRequestRecords === 'function') renderRequestRecords();
   if (typeof refreshDashboardStats === 'function') refreshDashboardStats();
   if (typeof buildCharts === 'function') buildCharts();
 }
@@ -165,6 +182,7 @@ async function reloadIncidents() {
   if (!data) return;
   INCIDENTS.length = 0; data.map(dbToIncident).forEach(i => INCIDENTS.push(i));
   if (typeof renderIncidents === 'function') renderIncidents();
+  if (typeof renderRequestRecords === 'function') renderRequestRecords();
   if (typeof refreshDashboardStats === 'function') refreshDashboardStats();
 }
 async function reloadUsers() {
@@ -254,7 +272,8 @@ async function loadAllFromDB() {
   // Re-render everything
   ['renderResidentsTable','renderCertKanban','renderIncidents','renderRFIDTags',
    'renderUsers','renderCabinetFolders','renderAuditLog','renderDashPurokBreakdown',
-   'populateEligResidentDropdown','updateNotifBadge','refreshDashboardStats','buildCharts'].forEach(fn => {
+   'populateEligResidentDropdown','updateNotifBadge','refreshDashboardStats','buildCharts',
+   'renderRequestRecords'].forEach(fn => {
     if (typeof window[fn] === 'function') window[fn]();
   });
 
@@ -391,12 +410,13 @@ window.saveIncident = async function() {
 
   const payload = {
     type,
+    date:        f('inc-date')        || '',
     location:    f('inc-location')    || '',
     reported_by: f('inc-reported')    || 'Anonymous',
     complainee:  f('inc-complainee')  || '',
     severity:    f('inc-severity')    || 'Medium',
     description: f('inc-details')     || '',
-    attachments: JSON.stringify(attachmentUrls),
+    attachments: attachmentUrls,
   };
   let result;
   if (editId) {
@@ -1101,4 +1121,4 @@ document.addEventListener('change', function(e) {
   }
 });
 
-console.log('📡 SmartBrgy DB Connector v2 loaded. Backend:', API);
+console.log('📡 SmartBrgy DB Connector v2 loaded. Backend:', _DB_API);

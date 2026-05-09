@@ -1,9 +1,9 @@
 ﻿'use strict';
 
 // ── API Configuration ──
-const API = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+const API = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname === '')
   ? 'http://localhost:5000'
-  : 'https://smartbrgy-anabu-1g.onrender.com';
+  : 'https://smartbrgy-api.onrender.com';
 
 // ═══════════════════════════════════════
 // SAMPLE DATA — DOB-based (no RFID in resident record, age computed)
@@ -1617,7 +1617,17 @@ function openViewIncident(id) {
   const attEl   = document.getElementById('view-inc-attachments');
   if (attWrap && attEl) {
     let urls = [];
-    try { urls = JSON.parse(inc.attachments || '[]'); } catch(e) { urls = []; }
+    if (Array.isArray(inc.attachments)) {
+      urls = inc.attachments;
+    } else if (typeof inc.attachments === 'string' && inc.attachments) {
+      try {
+        urls = JSON.parse(inc.attachments);
+        if (!Array.isArray(urls)) {
+          try { urls = JSON.parse(urls); } catch(e) { urls = []; }
+          if (!Array.isArray(urls)) urls = [];
+        }
+      } catch(e) { urls = []; }
+    }
     if (urls.length) {
       attEl.innerHTML = urls.map(u => {
         const isImg = /\.(png|jpe?g|gif|webp|heic)$/i.test(u);
@@ -1849,10 +1859,19 @@ function renderRequestRecords(nameFilter = '', statusFilter = '') {
   const container = document.getElementById('rr-resident-list');
   if (!container) return;
   container.innerHTML = '';
-  const total = REQUEST_RECORDS.length;
-  const completed = REQUEST_RECORDS.filter(r => r.status === 'Completed').length;
+  const allRequests = [...REQUEST_RECORDS, ...CERT_REQUESTS];
+  const total = allRequests.length;
+  const completed = allRequests.filter(r => r.status === 'Completed').length;
   const blocked = REQUEST_RECORDS.filter(r => !r.eligible || r.status === 'Blocked').length;
-  const blotteredResidents = new Set(Object.entries(RESIDENT_STATUS).filter(([,s]) => s.blotter).map(([id]) => id)).size;
+  const blotteredFromStatus = new Set(Object.entries(RESIDENT_STATUS).filter(([,s]) => s.blotter).map(([id]) => id));
+  const blotteredFromIncidents = new Set(
+    (typeof INCIDENTS !== 'undefined' ? INCIDENTS : []).map(inc => {
+      if (!inc.complainee) return null;
+      const res = RESIDENTS.find(r => r.name.trim().toLowerCase() === inc.complainee.trim().toLowerCase());
+      return res ? res.id : null;
+    }).filter(Boolean)
+  );
+  const blotteredResidents = new Set([...blotteredFromStatus, ...blotteredFromIncidents]).size;
   const setEl = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
   setEl('rr-total', total); setEl('rr-completed', completed); setEl('rr-blocked', blocked); setEl('rr-blotter', blotteredResidents);
 
@@ -2045,11 +2064,20 @@ function checkEligibility(residentId, certId) {
     eligible = false; reasons.push('❌ Hindi active ang residente.');
   }
   if (rule.needsGoodStanding) {
+    // Check blotter flag directly (set manually on resident record)
+    if (status.blotter) {
+      eligible = false;
+      const blotterList = status.blotterDetails?.length
+        ? status.blotterDetails.map(b => `• ${b}`).join('<br>')
+        : '(walang detalye)';
+      reasons.push(`❌ Naka-blotter ang residente:<br>${blotterList}`);
+    }
+    // Check good_standing flag
     if (!status.goodStanding) {
       eligible = false;
-      const blotterList = status.blotterDetails.map(b => `• ${b}`).join('<br>');
-      reasons.push(`❌ May blotter/bad record:<br>${blotterList}`);
+      reasons.push('❌ Hindi nasa mabuting kalagayan (good standing) ang residente.');
     }
+    // Check incident reports where resident is the complainee
     const nameLower = resident.name.trim().toLowerCase();
     const blotterIncidents = (typeof INCIDENTS !== 'undefined' ? INCIDENTS : []).filter(inc =>
       inc.complainee && inc.complainee.trim().toLowerCase() === nameLower
@@ -2057,7 +2085,7 @@ function checkEligibility(residentId, certId) {
     if (blotterIncidents.length > 0) {
       eligible = false;
       const list = blotterIncidents.map(i => `• ${i.type} — ${i.date} (${i.id})`).join('<br>');
-      reasons.push(`❌ Nakasangkot sa ${blotterIncidents.length} blotter/incident report:<br>${list}`);
+      reasons.push(`❌ Nakasangkot sa ${blotterIncidents.length} incident report bilang ine-reklamo:<br>${list}`);
     }
     if (eligible) reasons.push('✅ Nasa mabuting kalagayan sa barangay. Walang blotter records.');
   }
@@ -2904,12 +2932,18 @@ function checkEligibility(residentId, certId) {
   let eligible = true;
   if (rule.requiresActive && resident.status !== 'Active') { eligible = false; reasons.push('❌ Resident is not active.'); }
   if (rule.needsGoodStanding) {
-    // Check direct blotter flag on resident record
+    // Check blotter flag on resident record
+    if (status.blotter) {
+      eligible = false;
+      const blotterList = status.blotterDetails?.length ? status.blotterDetails.map(b => `• ${b}`).join('<br>') : '(walang detalye)';
+      reasons.push(`❌ Naka-blotter ang residente:<br>${blotterList}`);
+    }
+    // Check good_standing flag
     if (!status.goodStanding) {
       eligible = false;
-      reasons.push(`❌ Has blotter/bad record:<br>${status.blotterDetails.map(b => '• ' + b).join('<br>')}`);
+      reasons.push(`❌ Hindi nasa mabuting kalagayan (good standing) ang residente.`);
     }
-    // Also check incident reports — resident named as complainee (Ine-reklamo)
+    // Check incident reports — resident named as complainee (Ine-reklamo)
     const nameLower = resident.name.trim().toLowerCase();
     const blotterIncidents = (typeof INCIDENTS !== 'undefined' ? INCIDENTS : []).filter(inc =>
       inc.complainee && inc.complainee.trim().toLowerCase() === nameLower
@@ -2917,9 +2951,9 @@ function checkEligibility(residentId, certId) {
     if (blotterIncidents.length > 0) {
       eligible = false;
       const list = blotterIncidents.map(i => `• ${i.type} — ${i.date} (${i.id})`).join('<br>');
-      reasons.push(`❌ Named as respondent in ${blotterIncidents.length} blotter/incident report(s):<br>${list}`);
+      reasons.push(`❌ Nakasangkot sa ${blotterIncidents.length} incident report bilang ine-reklamo:<br>${list}`);
     }
-    if (eligible) reasons.push('✅ Resident is in good standing. No blotter records found.');
+    if (eligible) reasons.push('✅ Nasa mabuting kalagayan. Walang blotter records.');
   }
   if (rule.oneTimeOnly) {
     const prev = REQUEST_RECORDS.filter(r => r.residentId === residentId && r.certId === certId && r.status === 'Completed');
