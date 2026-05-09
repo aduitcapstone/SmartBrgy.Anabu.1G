@@ -36,7 +36,6 @@ DB_CONFIG = {
     'cursorclass': pymysql.cursors.DictCursor,
     'autocommit':  False,
 }
-}
 
 EMAIL_SUBJECT = 'Barangay Anabu I-G — Natanggap ang inyong Request'
 EMAIL_BODY = """\
