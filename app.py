@@ -12,6 +12,7 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from datetime import datetime, date
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 
@@ -829,8 +830,8 @@ def login_user():
             cur.execute("""
                 SELECT id,name,role,access,username,face,rfid,status
                 FROM users
-                WHERE username=%s AND password=%s AND status='Active'
-            """, (username, password))
+                WHERE username=%s AND status='Active'
+            """, (username,))
             user = cur.fetchone()
             if not user:
                 # Try name-based username
@@ -838,10 +839,10 @@ def login_user():
                     SELECT id,name,role,access,username,face,rfid,status
                     FROM users
                     WHERE LOWER(REPLACE(name,' ','.'))=%s
-                      AND password=%s AND status='Active'
-                """, (username.lower(), password))
+                      AND status='Active'
+                """, (username.lower(),))
                 user = cur.fetchone()
-            if not user:
+            if not user or not check_password_hash(user['password'], password):
                 return jsonify({'success': False, 'message': 'Invalid credentials'}), 401
             cur.execute("UPDATE users SET last_login=NOW() WHERE id=%s", (user['id'],))
             add_audit(cur, '🔐', 'auth', 'Login Successful',
@@ -871,7 +872,7 @@ def add_user():
                 VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)
             """, (new_id, name, data.get('role','Barangay Clerk'),
                   data.get('access','View Only'), data.get('username',''),
-                  data.get('password',''),
+                  generate_password_hash(data.get('password','')),
                   1 if data.get('face') else 0,
                   1 if data.get('rfid') else 0, 'Active'))
             add_audit(cur, '👤', 'auth', 'New User Created',
