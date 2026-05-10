@@ -12,7 +12,6 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from datetime import datetime, date
-from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 
@@ -28,11 +27,11 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 # ─── MySQL Connection Settings ───────────
 # I-lagay ang credentials ng iyong MySQL server dito
 DB_CONFIG = {
-    'host':        os.environ.get('DB_HOST', 'localhost'),
-    'port':        int(os.environ.get('DB_PORT', 3306)),
-    'user':        os.environ.get('DB_USER', 'root'),
-    'password':    os.environ.get('DB_PASSWORD', ''),
-    'database':    os.environ.get('DB_NAME', 'smartbrgy'),
+    'host':        'localhost',
+    'port':        3306,
+    'user':        'root',
+    'password':    '',
+    'database':    'smartbrgy',
     'charset':     'utf8mb4',
     'cursorclass': pymysql.cursors.DictCursor,
     'autocommit':  False,
@@ -819,11 +818,9 @@ def get_users():
     finally:
         conn.close()
 
-@app.route('/api/users/login', methods=['POST', 'OPTIONS'])
+@app.route('/api/users/login', methods=['POST'])
 def login_user():
-    if request.method == 'OPTIONS':
-        return '', 200
-    data = request.get_json()
+    data     = request.get_json()
     username = data.get('username','').strip()
     password = data.get('password','')
     conn     = get_db()
@@ -832,8 +829,8 @@ def login_user():
             cur.execute("""
                 SELECT id,name,role,access,username,face,rfid,status
                 FROM users
-                WHERE username=%s AND status='Active'
-            """, (username,))
+                WHERE username=%s AND password=%s AND status='Active'
+            """, (username, password))
             user = cur.fetchone()
             if not user:
                 # Try name-based username
@@ -841,10 +838,10 @@ def login_user():
                     SELECT id,name,role,access,username,face,rfid,status
                     FROM users
                     WHERE LOWER(REPLACE(name,' ','.'))=%s
-                      AND status='Active'
-                """, (username.lower(),))
+                      AND password=%s AND status='Active'
+                """, (username.lower(), password))
                 user = cur.fetchone()
-            if not user or not check_password_hash(user['password'], password):
+            if not user:
                 return jsonify({'success': False, 'message': 'Invalid credentials'}), 401
             cur.execute("UPDATE users SET last_login=NOW() WHERE id=%s", (user['id'],))
             add_audit(cur, '🔐', 'auth', 'Login Successful',
@@ -874,7 +871,7 @@ def add_user():
                 VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)
             """, (new_id, name, data.get('role','Barangay Clerk'),
                   data.get('access','View Only'), data.get('username',''),
-                  generate_password_hash(data.get('password','')),
+                  data.get('password',''),
                   1 if data.get('face') else 0,
                   1 if data.get('rfid') else 0, 'Active'))
             add_audit(cur, '👤', 'auth', 'New User Created',
