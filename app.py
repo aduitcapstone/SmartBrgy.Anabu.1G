@@ -819,9 +819,11 @@ def get_users():
     finally:
         conn.close()
 
-@app.route('/api/users/login', methods=['POST'])
+@app.route('/api/users/login', methods=['POST', 'OPTIONS'])
 def login_user():
-    data     = request.get_json()
+    if request.method == 'OPTIONS':
+        return '', 200
+    data = request.get_json()
     username = data.get('username','').strip()
     password = data.get('password','')
     conn     = get_db()
