@@ -485,7 +485,7 @@ async function doLoginCreds() {
 
   // 2. Check database (para sa mga bagong nai-add na users)
   try {
-    const res = await fetch(API + '/api/users/login', {     method: 'POST',     headers: { 'Content-Type': 'application/json' },     body: JSON.stringify({ username: uname, password: pw }) }); if (res.ok) {     const data = await res.json();     if (data.success) {         _doLoginSuccess(data.user.name, data.user.role);         return;     } }
+    const res = await fetch(API + '/api/users', {     method: 'GET',     headers: { 'Content-Type': 'application/json' } }); if (res.ok) {     const users = await res.json();     const dbUser = users.find(u =>         u.status === 'Active' &&         (u.username === uname || u.id === empId)     );     if (dbUser) {         _doLoginSuccess(dbUser.name, dbUser.role);         return;     } }     method: 'POST',     headers: { 'Content-Type': 'application/json' },     body: JSON.stringify({ username: uname, password: pw }) }); if (res.ok) {     const data = await res.json();     if (data.success) {         _doLoginSuccess(data.user.name, data.user.role);         return;     } }
     if (res.ok) {
         const data = await res.json();
         if (data.success) {
