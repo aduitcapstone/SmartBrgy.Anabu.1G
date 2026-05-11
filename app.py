@@ -27,14 +27,15 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 # ─── MySQL Connection Settings ───────────
 # I-lagay ang credentials ng iyong MySQL server dito
 DB_CONFIG = {
-    'host':        'localhost',
-    'port':        3306,
-    'user':        'root',
-    'password':    '',
-    'database':    'smartbrgy',
+    'host':        os.environ.get('DB_HOST', 'localhost'),
+    'port':        int(os.environ.get('DB_PORT', 3306)),
+    'user':        os.environ.get('DB_USER', 'root'),
+    'password':    os.environ.get('DB_PASSWORD', ''),
+    'database':    os.environ.get('DB_NAME', 'smartbrgy'),
     'charset':     'utf8mb4',
     'cursorclass': pymysql.cursors.DictCursor,
     'autocommit':  False,
+    'ssl':         {'ca': os.path.join(os.path.dirname(__file__), 'ca.pem')},
 }
 
 EMAIL_SUBJECT = 'Barangay Anabu I-G — Natanggap ang inyong Request'
