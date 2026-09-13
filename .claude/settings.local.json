@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Select-String -Path \"c:\\\\Users\\\\yvamm\\\\Downloads\\\\SmartBrgy_CAPSTONE\\\\index.html\" -Pattern \"nav-badge\" -AllMatches | Select-Object -First 5 | ForEach-Object { $_.LineNumber, $_.Line })",
+      "PowerShell(Select-String -Path \"c:\\\\Users\\\\yvamm\\\\Downloads\\\\SmartBrgy_CAPSTONE\\\\index.html\" -Pattern \"\\\\.nav-badge\" | ForEach-Object { $_.LineNumber, $_.Line })",
+      "PowerShell(Get-ChildItem -Path \"c:\\\\Users\\\\yvamm\\\\Downloads\\\\SmartBrgy_CAPSTONE\" -Recurse | Where-Object { $_.Name -match \"\\\\.\\(html|js\\)$\" } | Select-Object FullName)",
+      "PowerShell(Get-ChildItem -Path \"c:\\\\Users\\\\yvamm\\\\Downloads\\\\SmartBrgy_CAPSTONE\" -Recurse -File | Select-Object FullName | ConvertTo-Csv -NoTypeInformation | ForEach-Object { $_ })",
+      "PowerShell(try { $r = Invoke-WebRequest -Uri \"http://localhost:5000/api/residents\" -UseBasicParsing -TimeoutSec 3; Write-Host \"Server OK — residents: $\\(\\($r.Content | ConvertFrom-Json\\).Count\\)\"; \\($r.Content | ConvertFrom-Json\\)[0] | ConvertTo-Json -Depth 3 } catch { Write-Host \"Server not reachable: $_\" })",
+      "Read(//c/Users/yvamm/.claude/projects/c--Users-yvamm-Downloads-SmartBrgy-CAPSTONE/memory/**)",
+      "Bash(cp \"c:/Users/yvamm/Downloads/SmartBrgy_CAPSTONE/smartbrgy.db\" \"c:/Users/yvamm/Downloads/SmartBrgy_CAPSTONE/smartbrgy_BACKUP_$\\(date +%Y%m%d_%H%M%S\\).db\")",
+      "Bash(cp \"c:/Users/yvamm/Downloads/SmartBrgy_CAPSTONE/smartbrgy.db-wal\" \"c:/Users/yvamm/Downloads/SmartBrgy_CAPSTONE/smartbrgy_BACKUP_$\\(date +%Y%m%d_%H%M%S\\).db-wal\")",
+      "Bash(cp \"c:/Users/yvamm/Downloads/SmartBrgy_CAPSTONE/smartbrgy.db-shm\" \"c:/Users/yvamm/Downloads/SmartBrgy_CAPSTONE/smartbrgy_BACKUP_$\\(date +%Y%m%d_%H%M%S\\).db-shm\")",
+      "Bash(python3 -c ' *)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\yvamm\\\\Downloads\\\\FINAL PROTOTYPE\" -Recurse -Depth 2)",
+      "Bash(Select-Object FullName, PSIsContainer)",
+      "Bash(Sort-Object FullName)",
+      "PowerShell(\\(Get-Content \"c:\\\\Users\\\\yvamm\\\\Downloads\\\\FINAL PROTOTYPE\\\\script.js\" | Measure-Object -Line\\).Lines)",
+      "PowerShell(\\(Get-Content \"c:\\\\Users\\\\yvamm\\\\Downloads\\\\FINAL PROTOTYPE\\\\db-connector.js\" | Measure-Object -Line\\).Lines)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\yvamm\\.claude\\projects\\c--Users-yvamm-Downloads-SmartBrgy-CAPSTONE\\memory"
+    ]
+  }
+}

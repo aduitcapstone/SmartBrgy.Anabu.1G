@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SmartBrgy Portal - Document Request | Barangay Anabu I-G</title>
+<link rel="icon" type="image/jpeg" href="anabu logo.jpg"/>
+<style>
+:root {
+  --green: #00a63e;
+  --green-dark: #007a2e;
+  --green-light: #e6f7ed;
+  --green-border: #b3e6c8;
+  --blue: #2a7ed3;
+  --blue-light: #e8f1fb;
+  --red: #dc2626;
+  --red-light: #fef2f2;
+  --yellow: #d97706;
+  --yellow-light: #fffbeb;
+  --gray: #6b7280;
+  --gray-light: #f9fafb;
+  --border: #e5e7eb;
+  --text: #111827;
+  --text-sub: #4b5563;
+  --text-muted: #9ca3af;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.12);
+}
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family: 'Segoe UI', system-ui, sans-serif; background: linear-gradient(135deg, #f0faf4 0%, #e8f4fd 100%); min-height:100vh; color:var(--text); transition: background 0.3s, color 0.3s; }
+
+/* ── Header ── */
+.header { background:#fff; border-bottom:2px solid var(--green); padding:16px 24px; display:flex; align-items:center; gap:14px; box-shadow:0 2px 12px rgba(0,166,62,0.08); position:sticky; top:0; z-index:100; }
+.header-seal { width:44px; height:44px; border-radius:50%; overflow:hidden; flex-shrink:0; }
+.header-seal img { width:100%; height:100%; object-fit:cover; }
+.header-info h1 { font-size:17px; font-weight:800; color:var(--green-dark); line-height:1.2; }
+.header-info p  { font-size:11px; color:var(--text-muted); margin-top:2px; }
+.header-badge { margin-left:auto; background:var(--green-light); border:1px solid var(--green-border); color:var(--green-dark); padding:5px 12px; border-radius:20px; font-size:11px; font-weight:700; }
+
+/* ── Main container ── */
+.container { max-width:680px; margin:0 auto; padding:32px 16px 60px; }
+
+/* ── Cards ── */
+.card { background:#fff; border-radius:var(--radius); box-shadow:var(--shadow); border:1px solid var(--border); overflow:hidden; margin-bottom:20px; }
+.card-header { padding:18px 22px 14px; border-bottom:1px solid var(--border); }
+.card-header h2 { font-size:16px; font-weight:800; color:var(--text); display:flex; align-items:center; gap:8px; }
+.card-header p { font-size:12px; color:var(--text-muted); margin-top:4px; }
+.card-body { padding:20px 22px; }
+
+/* ── Screens ── */
+.screen { display:none; }
+.screen.active { display:block; }
+
+/* ── Steps indicator ── */
+.steps { display:flex; align-items:center; gap:0; margin-bottom:28px; }
+.step { display:flex; flex-direction:column; align-items:center; flex:1; position:relative; }
+.step:not(:last-child)::after { content:''; position:absolute; top:16px; left:calc(50% + 16px); right:calc(-50% + 16px); height:2px; background:var(--border); z-index:0; transition:background .3s; }
+.step.done:not(:last-child)::after { background:var(--green); }
+.step-circle { width:32px; height:32px; border-radius:50%; background:var(--border); color:var(--text-muted); display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700; position:relative; z-index:1; transition:all .3s; }
+.step.active .step-circle { background:var(--green); color:#fff; box-shadow:0 0 0 4px rgba(0,166,62,0.15); }
+.step.done .step-circle { background:var(--green); color:#fff; }
+.step-label { font-size:10px; color:var(--text-muted); margin-top:5px; text-align:center; font-weight:600; }
+.step.active .step-label, .step.done .step-label { color:var(--green); }
+
+/* ── T&C ── */
+.tnc-box { background:var(--gray-light); border:1px solid var(--border); border-radius:var(--radius-sm); padding:18px; max-height:360px; overflow-y:auto; font-size:12.5px; line-height:1.8; color:var(--text-sub); margin-bottom:16px; }
+.tnc-box h3 { font-size:14px; color:var(--text); margin-bottom:10px; font-weight:700; }
+.tnc-box h4 { font-size:12.5px; color:var(--text); margin:14px 0 6px; font-weight:700; }
+.tnc-box p  { margin-bottom:8px; }
+.tnc-box ol, .tnc-box ul { padding-left:18px; margin-bottom:8px; }
+.tnc-box li { margin-bottom:4px; }
+.tnc-scroll-notice { text-align:center; font-size:11px; color:var(--text-muted); margin-bottom:14px; padding:6px; background:#fffbeb; border-radius:6px; border:1px solid #fde68a; }
+
+/* ── Cert type grid ── */
+.cert-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px; }
+.cert-btn { border:2px solid var(--border); border-radius:var(--radius-sm); padding:14px 12px; cursor:pointer; transition:all .2s; background:#fff; text-align:center; }
+.cert-btn:hover { border-color:var(--green); background:var(--green-light); }
+.cert-btn.selected { border-color:var(--green); background:var(--green-light); box-shadow:0 0 0 3px rgba(0,166,62,0.12); }
+.cert-btn .icon { font-size:24px; margin-bottom:6px; }
+.cert-btn .label { font-size:12px; font-weight:700; color:var(--text); }
+.cert-btn .fee { font-size:10.5px; color:var(--text-muted); margin-top:2px; }
+.cert-btn .days { font-size:10px; color:var(--green); font-weight:600; margin-top:1px; }
+
+/* ── Form ── */
+.form-group { margin-bottom:14px; }
+.form-label { font-size:12px; font-weight:700; color:var(--text-sub); margin-bottom:5px; display:block; }
+.form-label span.req { color:var(--red); }
+.form-input { width:100%; padding:10px 13px; border:1.5px solid var(--border); border-radius:var(--radius-sm); font-size:13px; color:var(--text); background:#fff; transition:border-color .2s; font-family:inherit; }
+.form-input:focus { outline:none; border-color:var(--green); box-shadow:0 0 0 3px rgba(0,166,62,0.1); }
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.form-note { font-size:11px; color:var(--text-muted); margin-top:4px; }
+
+/* ── Buttons ── */
+.btn { padding:11px 20px; border:none; border-radius:var(--radius-sm); font-size:13px; font-weight:700; cursor:pointer; transition:all .2s; font-family:inherit; }
+.btn-green  { background:var(--green); color:#fff; }
+.btn-green:hover { background:var(--green-dark); }
+.btn-outline { background:#fff; color:var(--text-sub); border:1.5px solid var(--border); }
+.btn-outline:hover { border-color:var(--gray); }
+.btn-full { width:100%; }
+.btn-row { display:flex; gap:10px; margin-top:6px; }
+.btn-row .btn { flex:1; }
+.btn:disabled { opacity:.5; cursor:not-allowed; }
+
+/* ── Alert boxes ── */
+.alert { border-radius:var(--radius-sm); padding:12px 14px; font-size:12.5px; margin-bottom:14px; display:flex; gap:10px; align-items:flex-start; }
+.alert-yellow { background:var(--yellow-light); border:1px solid #fde68a; color:#92400e; }
+.alert-green  { background:var(--green-light); border:1px solid var(--green-border); color:var(--green-dark); }
+.alert-red    { background:var(--red-light); border:1px solid #fecaca; color:#991b1b; }
+.alert-blue   { background:var(--blue-light); border:1px solid #bfdbfe; color:#1e40af; }
+
+/* ── Confirmation box ── */
+.confirm-box { text-align:center; padding:24px; }
+.confirm-icon { font-size:52px; margin-bottom:14px; }
+.confirm-code { font-size:30px; font-weight:900; color:var(--green); letter-spacing:2px; font-family:'Courier New',monospace; background:var(--green-light); border:2px dashed var(--green-border); padding:12px 24px; border-radius:var(--radius-sm); display:inline-block; margin:10px 0 16px; }
+.confirm-note { font-size:12.5px; color:var(--text-sub); max-width:340px; margin:0 auto 20px; line-height:1.7; }
+.confirm-steps { background:var(--gray-light); border-radius:var(--radius-sm); padding:14px 16px; text-align:left; margin-bottom:16px; }
+.confirm-steps ol { padding-left:16px; font-size:12px; color:var(--text-sub); line-height:2; }
+
+/* ── Status checker ── */
+.status-track { display:flex; flex-direction:column; gap:0; }
+.status-step { display:flex; gap:12px; padding:10px 0; }
+.status-dot  { width:18px; height:18px; border-radius:50%; flex-shrink:0; margin-top:2px; border:2px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:9px; }
+.status-dot.done { background:var(--green); border-color:var(--green); color:#fff; }
+.status-dot.current { background:#fff; border-color:var(--yellow); box-shadow:0 0 0 3px rgba(217,119,6,0.2); }
+.status-step-text { font-size:12.5px; font-weight:600; color:var(--text-muted); }
+.status-step-text.done { color:var(--green); }
+.status-step-text.current { color:var(--yellow); }
+.status-step-meta { font-size:11px; color:var(--text-muted); margin-top:2px; }
+
+/* ── Badge ── */
+.badge { display:inline-flex; align-items:center; padding:2px 8px; border-radius:20px; font-size:10.5px; font-weight:700; border:1px solid transparent; }
+.badge-green  { background:var(--green-light); color:var(--green-dark); border-color:var(--green-border); }
+.badge-yellow { background:var(--yellow-light); color:#92400e; border-color:#fde68a; }
+.badge-red    { background:var(--red-light); color:#991b1b; border-color:#fecaca; }
+.badge-blue   { background:var(--blue-light); color:#1e40af; border-color:#bfdbfe; }
+.badge-gray   { background:var(--gray-light); color:var(--gray); border-color:var(--border); }
+
+/* ── Footer ── */
+.footer { text-align:center; font-size:11px; color:var(--text-muted); padding:20px; border-top:1px solid var(--border); margin-top:40px; }
+
+/* ── Toast ── */
+#toast-wrap { position:fixed; bottom:20px; right:20px; z-index:9999; display:flex; flex-direction:column; gap:8px; }
+.toast { background:#1f2937; color:#fff; padding:10px 16px; border-radius:8px; font-size:12.5px; display:flex; align-items:center; gap:8px; box-shadow:var(--shadow); animation:slideIn .3s ease; }
+.toast.green { background:#065f46; border-left:3px solid var(--green); }
+.toast.red   { background:#7f1d1d; border-left:3px solid var(--red); }
+@keyframes slideIn { from { transform:translateX(40px); opacity:0; } to { transform:translateX(0); opacity:1; } }
+
+/* ── Checkbox ── */
+.checkbox-row { display:flex; gap:10px; align-items:flex-start; padding:12px 0; border-top:1px solid var(--border); }
+.checkbox-row input[type=checkbox] { width:18px; height:18px; margin-top:1px; accent-color:var(--green); cursor:pointer; flex-shrink:0; }
+.checkbox-row label { font-size:12.5px; color:var(--text-sub); cursor:pointer; line-height:1.5; }
+
+/* ── Responsive ── */
+@media (max-width:500px) {
+  .cert-grid { grid-template-columns:1fr; }
+  .form-row  { grid-template-columns:1fr; }
+  .container { padding:16px 12px 60px; }
+}
+
+/* Loading overlay */
+#loader { position:fixed; inset:0; background:rgba(255,255,255,0.9); display:flex; align-items:center; justify-content:center; z-index:9998; flex-direction:column; gap:12px; }
+.spinner { width:36px; height:36px; border:3px solid var(--green-light); border-top-color:var(--green); border-radius:50%; animation:spin 0.7s linear infinite; }
+@keyframes spin { to { transform:rotate(360deg); } }
+/* ═══ DARK MODE ═══ */
+body.dark-mode {
+  --green: #00cc55;
+  --green-dark: #00ff6a;
+  --green-light: rgba(0,204,85,0.1);
+  --green-border: rgba(0,204,85,0.3);
+  --blue: #5ba3e8;
+  --blue-light: rgba(91,163,232,0.1);
+  --red: #f87171;
+  --red-light: rgba(239,68,68,0.1);
+  --yellow: #fbbf24;
+  --yellow-light: rgba(245,158,11,0.1);
+  --gray: #9ca3af;
+  --gray-light: rgba(255,255,255,0.05);
+  --border: rgba(255,255,255,0.12);
+  --text: #e8f4ff;
+  --text-sub: rgba(232,244,255,0.7);
+  --text-muted: rgba(232,244,255,0.4);
+  --shadow: 0 4px 24px rgba(0,0,0,0.4);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.5);
+  background: linear-gradient(135deg, #060f1c 0%, #0a1929 100%);
+}
+body.dark-mode .card { background: #0b1e35; border-color: rgba(42,126,211,0.2); }
+body.dark-mode .card-header { background: rgba(11,61,107,0.35); border-color: rgba(42,126,211,0.2); }
+body.dark-mode .card-header h2 { color: #e8f4ff; }
+body.dark-mode .card-header p { color: rgba(232,244,255,0.6); }
+body.dark-mode .tnc-box { background: rgba(11,61,107,0.2); border-color: rgba(42,126,211,0.2); }
+body.dark-mode .cert-btn { background: #0a1929; border-color: rgba(42,126,211,0.25); color: #e8f4ff; }
+body.dark-mode .cert-btn:hover,
+body.dark-mode .cert-btn.selected { border-color: var(--green); background: rgba(0,204,85,0.1); }
+body.dark-mode input, body.dark-mode select, body.dark-mode textarea {
+  background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.15); color: #e8f4ff;
+}
+body.dark-mode input::placeholder, body.dark-mode textarea::placeholder { color: rgba(232,244,255,0.35); }
+body.dark-mode .header { background: rgba(6,15,28,0.95); border-color: rgba(42,126,211,0.2); }
+body.dark-mode .header-info h1 { color: var(--green-dark); }
+body.dark-mode .header-badge { background: rgba(0,204,85,0.1); border-color: var(--green-border); color: var(--green-dark); }
+body.dark-mode .alert-yellow { background: rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.3); color: #fcd34d; }
+body.dark-mode .alert-green  { background: rgba(0,204,85,0.1); border-color: var(--green-border); color: var(--green-dark); }
+body.dark-mode .alert-red    { background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.3); color: #fca5a5; }
+body.dark-mode .alert-blue   { background: rgba(91,163,232,0.1); border-color: rgba(91,163,232,0.3); color: var(--blue); }
+body.dark-mode .confirm-code { background: rgba(0,204,85,0.1); border-color: var(--green-border); color: var(--green-dark); }
+body.dark-mode .confirm-steps { background: rgba(255,255,255,0.05); }
+body.dark-mode .badge-green  { background: rgba(0,204,85,0.1); color: var(--green-dark); border-color: var(--green-border); }
+body.dark-mode .badge-yellow { background: rgba(245,158,11,0.1); color: #fcd34d; border-color: rgba(245,158,11,0.3); }
+body.dark-mode .badge-red    { background: rgba(239,68,68,0.1); color: #fca5a5; border-color: rgba(239,68,68,0.3); }
+body.dark-mode .footer { color: rgba(232,244,255,0.45); }
+body.dark-mode .steps { background: rgba(255,255,255,0.04); border-color: rgba(42,126,211,0.15); }
+body.dark-mode .step-label { color: rgba(232,244,255,0.5); }
+body.dark-mode .step.active .step-label { color: var(--green-dark); }
+/* Step circle */
+body.dark-mode .step-circle { background: rgba(255,255,255,0.1); color: rgba(232,244,255,0.5); border-color: rgba(255,255,255,0.15); }
+body.dark-mode .step.active .step-circle { background: var(--green); color: #000; }
+body.dark-mode .step.done .step-circle { background: var(--green); color: #000; }
+/* Form inputs */
+body.dark-mode .form-input { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.15); color: #e8f4ff; }
+body.dark-mode .form-input:focus { border-color: var(--green); }
+body.dark-mode .form-label { color: rgba(232,244,255,0.7); }
+body.dark-mode .form-note { color: rgba(232,244,255,0.4); }
+body.dark-mode select option { background: #0a1929; color: #e8f4ff; }
+/* Buttons */
+body.dark-mode .btn-outline { background: rgba(255,255,255,0.06); color: rgba(232,244,255,0.75); border-color: rgba(255,255,255,0.15); }
+body.dark-mode .btn-outline:hover { border-color: rgba(255,255,255,0.30); color: #e8f4ff; }
+/* TnC box */
+body.dark-mode .tnc-box { color: rgba(232,244,255,0.75); }
+body.dark-mode .tnc-box h3, body.dark-mode .tnc-box h4 { color: #e8f4ff; }
+/* Scroll notice */
+body.dark-mode .tnc-scroll-notice { background: rgba(245,158,11,0.08); border-color: rgba(245,158,11,0.25); color: #fcd34d; }
+/* Cert buttons */
+body.dark-mode .cert-btn .label { color: #e8f4ff; }
+body.dark-mode .cert-btn .fee   { color: rgba(232,244,255,0.5); }
+body.dark-mode .cert-btn .days  { color: var(--green); }
+/* Confirm section */
+body.dark-mode .confirm-note { color: rgba(232,244,255,0.7); }
+body.dark-mode .confirm-steps ol { color: rgba(232,244,255,0.7); }
+/* Status tracker */
+body.dark-mode .status-step-text { color: rgba(232,244,255,0.5); }
+body.dark-mode .status-step-text.done { color: var(--green); }
+body.dark-mode .status-step-text.current { color: var(--yellow); }
+body.dark-mode .status-step-meta { color: rgba(232,244,255,0.4); }
+body.dark-mode .status-dot { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.20); color: rgba(232,244,255,0.5); }
+body.dark-mode .status-dot.done { background: var(--green); border-color: var(--green); color: #000; }
+body.dark-mode .status-dot.current { background: rgba(11,29,53,0.9); border-color: var(--yellow); color: var(--yellow); }
+/* Badges */
+body.dark-mode .badge-blue { background: rgba(91,163,232,0.1); color: #93c5fd; border-color: rgba(91,163,232,0.3); }
+body.dark-mode .badge-gray { background: rgba(255,255,255,0.07); color: rgba(232,244,255,0.55); border-color: rgba(255,255,255,0.12); }
+/* Loader */
+body.dark-mode #loader { background: rgba(6,15,28,0.92); }
+/* Checkbox label */
+body.dark-mode .checkbox-row label { color: rgba(232,244,255,0.75); }
+/* Footer */
+body.dark-mode .footer { border-color: rgba(255,255,255,0.08); }
+/* Portal theme toggle in dark mode */
+body.dark-mode #portal-theme-toggle { background: rgba(11,29,53,0.9); color: #e8f4ff; border-color: rgba(42,126,211,0.35); }
+/* Theme toggle button */
+#portal-theme-toggle {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 12px; border-radius: 20px; cursor: pointer;
+  font-size: 11px; font-weight: 700; border: 1px solid var(--border);
+  background: rgba(255,255,255,0.85); color: var(--text);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: all 0.2s; backdrop-filter: blur(8px);
+  user-select: none; white-space: nowrap; flex-shrink: 0;
+}
+body.dark-mode #portal-theme-toggle {
+  background: rgba(11,29,53,0.85); color: #e8f4ff; border-color: rgba(42,126,211,0.3);
+}
+#portal-theme-toggle:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.15); transform: translateY(-1px); }
+</style>
+</head>
+<body>
+
+<div id="toast-wrap"></div>
+<div id="loader" style="display:none;"><div class="spinner"></div><div style="font-size:13px;color:var(--text-muted);">Sandali lang...</div></div>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-seal"><img src="anabu logo.jpg" alt="Barangay Anabu I-G"/></div>
+  <div class="header-info">
+    <h1>SmartBrgy Online Portal</h1>
+    <p>Barangay Anabu I-G, Imus City, Cavite</p>
+  </div>
+  <div class="header-badge">🌐 Online</div>
+  <div id="portal-theme-toggle" onclick="togglePortalTheme()">
+    <span id="portal-theme-icon">🌙</span>
+    <span id="portal-theme-label">Dark Mode</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ═══════ SCREEN 1: WELCOME + TERMS AND CONDITIONS ═══════ -->
+  <div class="screen active" id="screen-terms">
+    <div class="steps">
+      <div class="step active" id="s1"><div class="step-circle">1</div><div class="step-label">Kasunduan</div></div>
+      <div class="step" id="s2"><div class="step-circle">2</div><div class="step-label">Dokumento</div></div>
+      <div class="step" id="s3"><div class="step-circle">3</div><div class="step-label">Impormasyon</div></div>
+      <div class="step" id="s4"><div class="step-circle">4</div><div class="step-label">Attachment</div></div>
+      <div class="step" id="s5"><div class="step-circle">5</div><div class="step-label">Kumpirmasyon</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h2>📋 Mga Tuntunin at Kundisyon</h2>
+        <p>Basahin nang mabuti bago mag-request ng dokumento</p>
+      </div>
+      <div class="card-body">
+        <div class="alert alert-yellow">
+          <span style="font-size:18px;flex-shrink:0;">⚠️</span>
+          <div><strong>Mahalaga:</strong> Ang inyong personal na impormasyon ay pinangangalagaan ng Barangay Anabu I-G alinsunod sa Republic Act 10173 (Data Privacy Act ng 2012). Basahin ang mga sumusunod bago magpatuloy.</div>
+        </div>
+
+        <div class="tnc-box" id="tnc-scroll">
+          <h3>📜 KASUNDUAN SA PAGGAMIT NG SMARTBRGY ONLINE PORTAL</h3>
+          <p><em>Barangay Anabu I-G, Imus City, Cavite — Bersyon 1.0, Mayo 2025</em></p>
+
+          <h4>ARTIKULO I — LAYUNIN</h4>
+          <p>Ang SmartBrgy Online Portal ay isang serbisyong elektroniko ng Barangay Anabu I-G na nagbibigay-daan sa mga residente na makapag-request ng iba't ibang dokumento nang hindi na kailangang pumunta pa sa barangay hall bilang unang hakbang. Ang layunin nito ay pabilisin at gawing mas madali ang proseso ng pagkuha ng mga barangay dokumento para sa lahat ng residente.</p>
+
+          <h4>ARTIKULO II — SAKLAW NG SERBISYO</h4>
+          <p>Maaaring i-request sa pamamagitan ng portal na ito ang mga sumusunod na dokumento:</p>
+          <ol>
+            <li>Barangay Clearance</li>
+            <li>Certificate of Residency (Patunay ng Paninirahan)</li>
+            <li>Certificate of Indigency (Patunay ng Kahirapan)</li>
+            <li>Barangay ID</li>
+            <li>First Time Jobseeker Certificate</li>
+            <li>Business Clearance</li>
+          </ol>
+          <p><strong>Tandaan:</strong> Ang online na pag-request ay para lamang sa pagpapahayag ng interes. Ang aktwal na pagpapalabas ng dokumento ay isasagawa lamang sa Barangay Hall pagkatapos ng personal na pagbisita at pagberipika ng mga kinakailangang dokumento.</p>
+
+          <h4>ARTIKULO III — MGA KINAKAILANGAN</h4>
+          <p>Upang maging karapat-dapat sa pagkuha ng dokumento, ang residente ay dapat:</p>
+          <ol>
+            <li>Isang tunay na residente ng Barangay Anabu I-G, Imus City;</li>
+            <li>Walang anumang nakasamang blotter o kaso na hindi pa nalulutas (para sa ilang uri ng dokumento);</li>
+            <li>Magbigay ng totoong impormasyon sa lahat ng kinakailangang patlang;</li>
+            <li>Personal na pumunta sa Barangay Hall upang kunin ang dokumento.</li>
+          </ol>
+
+          <h4>ARTIKULO IV — KOLEKSYON NG PERSONAL NA DATOS</h4>
+          <p>Ang Barangay Anabu I-G, bilang Controller ng inyong personal na datos ayon sa RA 10173 (Data Privacy Act of 2012), ay nangangalap ng sumusunod na impormasyon:</p>
+          <ul>
+            <li>Buong pangalan</li>
+            <li>Address sa barangay (Purok)</li>
+            <li>Numero ng telepono o contact</li>
+            <li>Layunin ng paghingi ng dokumento</li>
+          </ul>
+
+          <h4>ARTIKULO V — PAANO GINAGAMIT ANG INYONG DATOS</h4>
+          <p>Ang inyong personal na impormasyon ay gagamitin lamang para sa:</p>
+          <ol>
+            <li>Pagpoproseso ng inyong request na dokumento;</li>
+            <li>Pag-verify ng inyong pagkatao sa oras ng pagkuha sa barangay hall;</li>
+            <li>Pagpapadala ng update tungkol sa status ng inyong request (kung may contact number);</li>
+            <li>Mga opisyal na rekord ng barangay na kinakailangan ng batas.</li>
+          </ol>
+          <p><strong>HINDI</strong> ibabahagi ang inyong impormasyon sa mga third party na walang kaugnayan sa serbisyo ng barangay.</p>
+
+          <h4>ARTIKULO VI — SEGURIDAD NG DATOS</h4>
+          <p>Ang Barangay Anabu I-G ay gumagamit ng mga teknikal at administratibong hakbang upang pangalagaan ang inyong personal na impormasyon laban sa anumang hindi awtorisadong pag-access, pagbabago, o pagsisiwalat. Ang lahat ng datos ay nakaimbak sa isang ligtas na sistema na may restricted na access.</p>
+
+          <h4>ARTIKULO VII — MGA KARAPATAN NG DATOS-SUBJEK</h4>
+          <p>Ayon sa RA 10173, mayroon kayong karapatang:</p>
+          <ul>
+            <li>Malaman kung anong personal na datos ang hawak ng barangay tungkol sa inyo;</li>
+            <li>Makuha ang kopya ng inyong personal na datos;</li>
+            <li>Ituwid ang anumang maling impormasyon;</li>
+            <li>Humiling ng pagtanggal ng inyong datos (kung naaangkop at pinahihintulutan ng batas);</li>
+            <li>Mag-file ng reklamo sa National Privacy Commission (NPC) kung naniniwala kayong nilabag ang inyong mga karapatan.</li>
+          </ul>
+
+          <h4>ARTIKULO VIII — RESPONSIBILIDAD NG GUMAGAMIT</h4>
+          <p>Sa paggamit ng portal na ito, kayo ay sumasang-ayon na:</p>
+          <ol>
+            <li>Ang lahat ng impormasyon na inyong ibibigay ay totoong impormasyon at hindi mapanlinlang;</li>
+            <li>Hindi ninyo gagamitin ang portal para sa anumang ilegal o maling layunin;</li>
+            <li>Mauunawaan na ang online request ay hindi ginagarantiyahan ang agarang pagpapalabas ng dokumento — napapailalim ito sa verification ng barangay staff;</li>
+            <li>Responsibilidad ninyo ang personal na pumunta sa Barangay Hall upang makuha ang dokumento at magdala ng kinakailangang valid ID.</li>
+          </ol>
+
+          <h4>ARTIKULO IX — BAYAD SA DOKUMENTASYON</h4>
+          <p>Ang ilang mga dokumento ay may kaukulang bayad na babayaran sa Barangay Hall sa oras ng pagkuha. Hindi tinatanggap ang bayad sa pamamagitan ng online na pamamaraan. Ang kasalukuyang bayad ay nakalagay sa bawat uri ng dokumento sa portal na ito.</p>
+
+          <h4>ARTIKULO X — VALIDITY NG REQUEST</h4>
+          <p>Ang online request ay magiging valid sa loob ng <strong>30 araw</strong> mula sa petsa ng pagsusumite. Kung hindi kayo makapunta sa loob ng panahong ito, kailangan ninyong mag-request muli.</p>
+
+          <h4>ARTIKULO XI — PAKIKIPAG-UGNAYAN</h4>
+          <p>Para sa anumang katanungan o alalahanin, maaari kayong makipag-ugnayan sa:</p>
+          <ul>
+            <li>📍 Barangay Hall, Barangay Anabu I-G, Imus City, Cavite</li>
+            <li>🕗 Lunes hanggang Biyernes: 8:00 AM – 5:00 PM</li>
+          </ul>
+
+          <p style="margin-top:16px;font-size:11px;color:var(--text-muted);">Huling na-update: Mayo 2025 | Bersyon 1.0 | Barangay Anabu I-G</p>
+        </div>
+
+        <div class="tnc-scroll-notice" id="tnc-notice">⬇️ Mag-scroll pababa upang mabasa ang lahat ng tuntunin bago makumpirma</div>
+
+        <div class="checkbox-row">
+          <input type="checkbox" id="tnc-agree" disabled onchange="onTncCheck()"/>
+          <label for="tnc-agree">
+            Nabasa ko at naunawaan ko ang mga <strong>Tuntunin at Kundisyon</strong> ng SmartBrgy Portal. Sumasang-ayon ako sa koleksyon at paggamit ng aking personal na impormasyon alinsunod sa <strong>Republic Act 10173 (Data Privacy Act of 2012)</strong> at sa mga patakaran ng Barangay Anabu I-G.
+          </label>
+        </div>
+
+        <button class="btn btn-green btn-full" id="btn-proceed-terms" onclick="proceedFromTerms()" disabled>
+          ✅ Sumasang-ayon Ako — Magpatuloy
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════ SCREEN 2: PUMILI NG DOKUMENTO ═══════ -->
+  <div class="screen" id="screen-doctype">
+    <div class="steps">
+      <div class="step done" id="s1b"><div class="step-circle">✓</div><div class="step-label">Kasunduan</div></div>
+      <div class="step active" id="s2b"><div class="step-circle">2</div><div class="step-label">Dokumento</div></div>
+      <div class="step" id="s3b"><div class="step-circle">3</div><div class="step-label">Impormasyon</div></div>
+      <div class="step" id="s4b"><div class="step-circle">4</div><div class="step-label">Attachment</div></div>
+      <div class="step" id="s5b"><div class="step-circle">5</div><div class="step-label">Kumpirmasyon</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h2>📄 Piliin ang Uri ng Dokumento</h2>
+        <p>I-click ang dokumentong gusto ninyong i-request</p>
+      </div>
+      <div class="card-body">
+        <div class="cert-grid" id="cert-type-grid">
+          <div class="cert-btn" onclick="selectDoc('BC',this)"><div class="icon">📄</div><div class="label">Barangay Clearance</div><div class="fee">PHP 50.00</div><div class="days">✓ 1 araw</div></div>
+          <div class="cert-btn" onclick="selectDoc('CR',this)"><div class="icon">🏠</div><div class="label">Certificate of Residency</div><div class="fee">PHP 50.00</div><div class="days">✓ 1 araw</div></div>
+          <div class="cert-btn" onclick="selectDoc('CI',this)"><div class="icon">📋</div><div class="label">Certificate of Indigency</div><div class="fee">Libre</div><div class="days">✓ 1 araw</div></div>
+          <div class="cert-btn" onclick="selectDoc('BID',this)"><div class="icon">🪪</div><div class="label">Barangay ID</div><div class="fee">PHP 100.00</div><div class="days">✓ 3-5 araw</div></div>
+          <div class="cert-btn" onclick="selectDoc('CTFJ',this)"><div class="icon">💼</div><div class="label">First Time Jobseeker</div><div class="fee">Libre</div><div class="days">✓ 1 araw</div></div>
+          <div class="cert-btn" onclick="selectDoc('BBC',this)"><div class="icon">🏪</div><div class="label">Business Clearance</div><div class="fee">PHP 200.00+</div><div class="days">✓ 3-5 araw</div></div>
+        </div>
+
+        <div id="doc-selected-info" style="display:none;" class="alert alert-green">
+          <span id="doc-sel-icon" style="font-size:18px;flex-shrink:0;"></span>
+          <div>Napili: <strong id="doc-sel-label"></strong> — <span id="doc-sel-fee" style="color:var(--green-dark);"></span></div>
+        </div>
+
+        <button class="btn btn-green btn-full" id="btn-proceed-doc" onclick="proceedFromDoc()" disabled>
+          Susunod →
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════ SCREEN 3: FORM ═══════ -->
+  <div class="screen" id="screen-form">
+    <div class="steps">
+      <div class="step done"><div class="step-circle">✓</div><div class="step-label">Kasunduan</div></div>
+      <div class="step done"><div class="step-circle">✓</div><div class="step-label">Dokumento</div></div>
+      <div class="step active"><div class="step-circle">3</div><div class="step-label">Impormasyon</div></div>
+      <div class="step"><div class="step-circle">4</div><div class="step-label">Attachment</div></div>
+      <div class="step"><div class="step-circle">5</div><div class="step-label">Kumpirmasyon</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h2>✍️ Punan ang Impormasyon</h2>
+        <p>Tiyaking tama ang lahat ng inyong impormasyon</p>
+      </div>
+      <div class="card-body">
+        <div class="alert alert-blue" style="margin-bottom:16px;">
+          <span style="font-size:16px;flex-shrink:0;">📄</span>
+          <div>Nire-request: <strong id="form-doc-label"></strong> — <span id="form-doc-fee" style="font-weight:700;color:var(--blue);"></span></div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="f-name">Buong Pangalan <span class="req">*</span></label>
+          <input class="form-input" id="f-name" placeholder="Halimbawa: Juan dela Cruz" autocomplete="name"/>
+          <div class="form-note">Isulat ang inyong buong pangalan tulad ng nakasaad sa inyong valid ID</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="f-address">Address sa Barangay <span class="req">*</span></label>
+          <input class="form-input" id="f-address" placeholder="Purok, Sityo o Street — Barangay Anabu I-G"/>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="f-contact">Email Address <span style="font-weight:400;color:#6b7280;">(para sa notification)</span></label>
+            <input class="form-input" id="f-contact" placeholder="example@gmail.com" type="email"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="f-dob">Petsa ng Kapanganakan <span class="req">*</span></label>
+            <input class="form-input" id="f-dob" type="date" required/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="f-purpose">Layunin / Dahilan <span class="req">*</span></label>
+          <input class="form-input" id="f-purpose" placeholder="Halimbawa: Para sa trabaho, scholarship, loan, business..."/>
+        </div>
+
+        <div id="business-field" style="display:none;" class="form-group">
+          <label class="form-label" for="f-business">Pangalan ng Negosyo <span class="req">*</span></label>
+          <input class="form-input" id="f-business" placeholder="Pangalan ng inyong negosyo"/>
+        </div>
+
+        <div class="alert alert-yellow" style="margin:16px 0 10px;">
+          <span style="font-size:16px;flex-shrink:0;">🔒</span>
+          <div><strong>Paalala sa Privacy:</strong> Ang inyong impormasyon ay mahigpit na kumpidensyal at gagamitin lamang para sa pagpoproseso ng inyong request ayon sa RA 10173.</div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-outline" onclick="goBack('screen-doctype')">← Bumalik</button>
+          <button class="btn btn-green" onclick="goToAttachment()">Susunod → Attachment</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════ SCREEN 4: ATTACHMENT ═══════ -->
+  <div class="screen" id="screen-attachment">
+    <div class="steps">
+      <div class="step done"><div class="step-circle">✓</div><div class="step-label">Kasunduan</div></div>
+      <div class="step done"><div class="step-circle">✓</div><div class="step-label">Dokumento</div></div>
+      <div class="step done"><div class="step-circle">✓</div><div class="step-label">Impormasyon</div></div>
+      <div class="step active"><div class="step-circle">4</div><div class="step-label">Attachment</div></div>
+      <div class="step"><div class="step-circle">5</div><div class="step-label">Kumpirmasyon</div></div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <h2>🪪 I-upload ang Inyong Valid ID</h2>
+        <p>Mag-upload ng larawan ng inyong valid ID bilang patunay ng pagkakakilanlan</p>
+      </div>
+      <div class="card-body">
+        <div class="alert alert-blue" style="margin-bottom:16px;">
+          <span style="font-size:16px;flex-shrink:0;">ℹ️</span>
+          <div>Ang attachment ay <strong>optional</strong> ngunit nirerekomenda para mapabilis ang pagpoproseso ng inyong request.</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Larawan ng Valid ID <span style="font-weight:400;color:#6b7280;">(JPG, PNG — max 5MB)</span></label>
+          <div id="att-dropzone" style="border:2px dashed var(--border);border-radius:12px;padding:32px 16px;text-align:center;cursor:pointer;transition:border-color .2s;" onclick="document.getElementById('f-attachment').click()" ondragover="event.preventDefault();this.style.borderColor='var(--green)'" ondragleave="this.style.borderColor='var(--border)'" ondrop="handleAttachmentDrop(event)">
+            <div style="font-size:36px;margin-bottom:8px;">🪪</div>
+            <div style="font-size:13px;font-weight:600;color:var(--text-main);margin-bottom:4px;">I-click o i-drag ang larawan dito</div>
+            <div style="font-size:11px;color:var(--text-sub);">JPG, PNG, HEIC — hanggang 5MB</div>
+          </div>
+          <input type="file" id="f-attachment" accept="image/jpeg,image/png,image/heic,image/webp" style="display:none;" onchange="previewAttachment(this)"/>
+        </div>
+
+        <div id="att-preview" style="display:none;margin-top:12px;text-align:center;">
+          <img id="att-preview-img" src="" alt="ID Preview" style="max-width:100%;max-height:220px;border-radius:10px;border:1px solid var(--border);object-fit:contain;"/>
+          <div style="margin-top:8px;font-size:12px;color:var(--green);font-weight:600;" id="att-preview-name"></div>
+          <button class="btn btn-outline" style="margin-top:8px;font-size:11px;" onclick="clearAttachment()">✕ Alisin</button>
+        </div>
+
+        <div class="btn-row" style="margin-top:20px;">
+          <button class="btn btn-outline" onclick="goBack('screen-form')">← Bumalik</button>
+          <button class="btn btn-green" onclick="submitRequest()">📨 I-submit ang Request</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════ SCREEN 5: KUMPIRMASYON ═══════ -->
+  <div class="screen" id="screen-confirm">
+    <div class="steps">
+      <div class="step done"><div class="step-circle">✓</div><div class="step-label">Kasunduan</div></div>
+      <div class="step done"><div class="step-circle">✓</div><div class="step-label">Dokumento</div></div>
+      <div class="step done"><div class="step-circle">✓</div><div class="step-label">Impormasyon</div></div>
+      <div class="step done"><div class="step-circle">✓</div><div class="step-label">Attachment</div></div>
+      <div class="step active"><div class="step-circle">5</div><div class="step-label">Kumpirmasyon</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <div class="confirm-box">
+          <div class="confirm-icon">✅</div>
+          <h2 style="font-size:20px;font-weight:800;color:var(--green);margin-bottom:6px;">Request na Na-submit!</h2>
+          <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;">Ang inyong reference code ay:</p>
+          <div class="confirm-code" id="conf-code">REQ-0000</div>
+          <div class="confirm-note">
+            <strong>I-screenshot o isulat ang code na ito.</strong><br/>
+            Ibibigay ito sa Barangay Hall pagdating ninyo para makuha ang inyong dokumento.
+          </div>
+
+          <div class="confirm-steps">
+            <p style="font-size:12px;font-weight:700;color:var(--text);margin-bottom:8px;">📋 Susunod na Hakbang:</p>
+            <ol>
+              <li>Hintayin ang SMS/tawag mula sa barangay kung may ibinigay kang contact number</li>
+              <li>Pumunta sa <strong>Barangay Hall, Anabu I-G</strong> sa loob ng 30 araw</li>
+              <li>Magdala ng <strong>1 valid government ID</strong></li>
+              <li>Ipakita ang reference code: <strong id="conf-code-mini"></strong></li>
+              <li>Bayaran ang kaukulang bayad (kung applicable)</li>
+            </ol>
+          </div>
+
+          <div id="conf-summary" class="alert alert-green" style="text-align:left;margin-bottom:16px;"></div>
+
+          <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+            <button class="btn btn-outline" onclick="goToStatus()">🔍 I-check ang Status</button>
+            <button class="btn btn-green" onclick="newRequest()">➕ Bagong Request</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════ SCREEN 5: STATUS CHECKER ═══════ -->
+  <div class="screen" id="screen-status">
+    <div class="card">
+      <div class="card-header">
+        <h2>🔍 I-check ang Status ng Request</h2>
+        <p>Ilagay ang inyong reference code upang makita ang status</p>
+      </div>
+      <div class="card-body">
+        <div class="form-group">
+          <label class="form-label" for="status-code">Reference Code <span class="req">*</span></label>
+          <div style="display:flex;gap:8px;">
+            <input class="form-input" id="status-code" placeholder="Halimbawa: REQ-2025-0001" style="flex:1;" onkeydown="if(event.key==='Enter')checkStatus()"/>
+            <button class="btn btn-green" onclick="checkStatus()">🔍 Hanapin</button>
+          </div>
+        </div>
+        <div id="status-result" style="display:none;"></div>
+        <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);text-align:center;">
+          <button class="btn btn-outline" onclick="showScreen('screen-terms')">← Bumalik sa Simula</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<!-- QUICK NAV FOOTER -->
+<div class="footer">
+  <div style="margin-bottom:8px;">
+    <button class="btn btn-outline" style="font-size:11px;padding:6px 14px;" onclick="showScreen('screen-status')">🔍 I-check ang Status</button>
+  </div>
+  🏛️ Barangay Anabu I-G, Imus City, Cavite &nbsp;|&nbsp; SmartBrgy Portal v2.0
+  <br>Ang lahat ng personal na impormasyon ay pinoprotektahan ng RA 10173 (Data Privacy Act of 2012)
+</div>
+
+<script>
+const API = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname === '')
+  ? 'http://localhost:5000'
+  : 'https://smartbrgy-anabu-1g.onrender.com';
+const DOC_TYPES = {
+  'BC':   { label:'Barangay Clearance',       icon:'📄', fee:'PHP 50.00',   days:'1 araw' },
+  'CR':   { label:'Certificate of Residency', icon:'🏠', fee:'PHP 50.00',   days:'1 araw' },
+  'CI':   { label:'Certificate of Indigency', icon:'📋', fee:'Libre',       days:'1 araw' },
+  'BID':  { label:'Barangay ID',              icon:'🪪', fee:'PHP 100.00',  days:'3-5 araw' },
+  'CTFJ': { label:'First Time Jobseeker',     icon:'💼', fee:'Libre',       days:'1 araw' },
+  'BBC':  { label:'Business Clearance',       icon:'🏪', fee:'PHP 200.00+', days:'3-5 araw' },
+};
+
+let selectedDocId = null;
+let tncScrolled = false;
+let lastCode = '';
+
+// ── Session persistence ──
+const _SK = 'smartbrgy_session';
+function _saveSession() {
+  sessionStorage.setItem(_SK, JSON.stringify({
+    screen:      document.querySelector('.screen.active')?.id || 'screen-terms',
+    docId:       selectedDocId,
+    tncScrolled,
+    tncChecked:  document.getElementById('tnc-agree')?.checked || false,
+    lastCode,
+    theme:       _portalDark,
+    confirmSummary: document.getElementById('conf-summary')?.innerHTML || '',
+    statusCode:  document.getElementById('status-code')?.value || '',
+    form: {
+      name:     document.getElementById('f-name')?.value     || '',
+      address:  document.getElementById('f-address')?.value  || '',
+      contact:  document.getElementById('f-contact')?.value  || '',
+      purpose:  document.getElementById('f-purpose')?.value  || '',
+      business: document.getElementById('f-business')?.value || '',
+      dob:      document.getElementById('f-dob')?.value      || '',
+    }
+  }));
+}
+function _restoreSession() {
+  const raw = sessionStorage.getItem(_SK);
+  if (!raw) return;
+  try {
+    const d = JSON.parse(raw);
+    // theme
+    if (d.theme) {
+      _portalDark = true;
+      document.body.classList.add('dark-mode');
+      const ti = document.getElementById('portal-theme-icon');
+      const tl = document.getElementById('portal-theme-label');
+      if (ti) ti.textContent  = '☀️';
+      if (tl) tl.textContent = 'Light Mode';
+    }
+    // form fields
+    if (d.form) {
+      ['name','address','contact','purpose','business'].forEach(k => {
+        const el = document.getElementById('f-'+k);
+        if (el) el.value = d.form[k] || '';
+      });
+      const dob = document.getElementById('f-dob');
+      if (dob) dob.value = d.form.dob || '';
+    }
+    // T&C state
+    if (d.tncScrolled) {
+      tncScrolled = true;
+      const btn = document.getElementById('tnc-agree');
+      if (btn) btn.disabled = false;
+      const notice = document.getElementById('tnc-notice');
+      if (notice) {
+        notice.innerHTML = '✅ Nabasa mo na ang lahat ng tuntunin — maaari nang kumilos';
+        notice.style.background   = '#d1fae5';
+        notice.style.borderColor  = '#6ee7b7';
+        notice.style.color        = '#065f46';
+      }
+    }
+    if (d.tncChecked) {
+      const cb = document.getElementById('tnc-agree');
+      const pb = document.getElementById('btn-proceed-terms');
+      if (cb) cb.checked = true;
+      if (pb) pb.disabled = false;
+    }
+    // selected document type
+    if (d.docId) {
+      selectedDocId = d.docId;
+      const doc = DOC_TYPES[d.docId];
+      const btn = document.querySelector(`.cert-btn[onclick*="'${d.docId}'"]`);
+      if (btn) btn.classList.add('selected');
+      if (doc) {
+        const di = document.getElementById('doc-sel-icon');
+        const dl = document.getElementById('doc-sel-label');
+        const df = document.getElementById('doc-sel-fee');
+        const di2 = document.getElementById('doc-selected-info');
+        const pb  = document.getElementById('btn-proceed-doc');
+        if (di)  di.textContent  = doc.icon;
+        if (dl)  dl.textContent  = doc.label;
+        if (df)  df.textContent  = doc.fee + ' · ' + doc.days;
+        if (di2) di2.style.display = 'flex';
+        if (pb)  pb.disabled = false;
+        const fl  = document.getElementById('form-doc-label');
+        const ff  = document.getElementById('form-doc-fee');
+        const fbf = document.getElementById('business-field');
+        if (fl)  fl.textContent = doc.icon + ' ' + doc.label;
+        if (ff)  ff.textContent = doc.fee;
+        if (fbf) fbf.style.display = d.docId === 'BBC' ? 'block' : 'none';
+      }
+    }
+    // confirmation screen data
+    if (d.lastCode) {
+      lastCode = d.lastCode;
+      const cc   = document.getElementById('conf-code');
+      const ccm  = document.getElementById('conf-code-mini');
+      const csum = document.getElementById('conf-summary');
+      if (cc)   cc.textContent  = d.lastCode;
+      if (ccm)  ccm.textContent = d.lastCode;
+      if (csum && d.confirmSummary) csum.innerHTML = d.confirmSummary;
+    }
+    // status screen
+    if (d.statusCode) {
+      const sc = document.getElementById('status-code');
+      if (sc) sc.value = d.statusCode;
+    }
+    // restore screen last (after all state is set)
+    if (d.screen && d.screen !== 'screen-terms') {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      const target = document.getElementById(d.screen);
+      if (target) target.classList.add('active');
+    }
+  } catch(e) {
+    sessionStorage.removeItem(_SK);
+  }
+}
+
+// ── Toast ──
+function toast(msg, type='') {
+  const wrap = document.getElementById('toast-wrap');
+  const t = document.createElement('div');
+  t.className = 'toast ' + type;
+  t.innerHTML = `<span>${type==='green'?'✅':type==='red'?'❌':'ℹ️'}</span><span>${msg}</span>`;
+  wrap.appendChild(t);
+  setTimeout(() => { t.style.opacity='0'; t.style.transition='opacity .3s'; setTimeout(()=>t.remove(),300); }, 3500);
+}
+
+// ── Loading ──
+function setLoading(v) { document.getElementById('loader').style.display = v ? 'flex' : 'none'; }
+
+// ── Screen nav ──
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({ top:0, behavior:'smooth' });
+  _saveSession();
+}
+
+// ── T&C scroll detection ──
+const tncBox = document.getElementById('tnc-scroll');
+tncBox.addEventListener('scroll', function() {
+  if (this.scrollTop + this.clientHeight >= this.scrollHeight - 30) {
+    if (!tncScrolled) {
+      tncScrolled = true;
+      document.getElementById('tnc-agree').disabled = false;
+      document.getElementById('tnc-notice').innerHTML = '✅ Nabasa mo na ang lahat ng tuntunin — maaari nang kumilos';
+      document.getElementById('tnc-notice').style.background = '#d1fae5';
+      document.getElementById('tnc-notice').style.borderColor = '#6ee7b7';
+      document.getElementById('tnc-notice').style.color = '#065f46';
+      _saveSession();
+    }
+  }
+});
+
+function onTncCheck() {
+  const checked = document.getElementById('tnc-agree').checked;
+  document.getElementById('btn-proceed-terms').disabled = !checked;
+  _saveSession();
+}
+
+function proceedFromTerms() {
+  if (!document.getElementById('tnc-agree').checked) return;
+  // Log T&C agreement (fire and forget)
+  fetch(API+'/api/portal/terms-agree', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ name:'Portal User', contact:'' })
+  }).catch(()=>{});
+  showScreen('screen-doctype');
+}
+
+// ── Select document type ──
+function selectDoc(id, el) {
+  selectedDocId = id;
+  document.querySelectorAll('.cert-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  const d = DOC_TYPES[id];
+  document.getElementById('doc-sel-icon').textContent = d.icon;
+  document.getElementById('doc-sel-label').textContent = d.label;
+  document.getElementById('doc-sel-fee').textContent = d.fee + ' · ' + d.days;
+  document.getElementById('doc-selected-info').style.display = 'flex';
+  document.getElementById('btn-proceed-doc').disabled = false;
+  _saveSession();
+}
+
+function proceedFromDoc() {
+  if (!selectedDocId) return;
+  const d = DOC_TYPES[selectedDocId];
+  document.getElementById('form-doc-label').textContent = d.icon + ' ' + d.label;
+  document.getElementById('form-doc-fee').textContent = d.fee;
+  document.getElementById('business-field').style.display = selectedDocId === 'BBC' ? 'block' : 'none';
+  showScreen('screen-form');
+}
+
+function goBack(screenId) { showScreen(screenId); }
+
+// ── Go to Attachment screen (validate form first) ──
+function goToAttachment() {
+  const name    = document.getElementById('f-name').value.trim();
+  const address = document.getElementById('f-address').value.trim();
+  const purpose = document.getElementById('f-purpose').value.trim();
+  const biz     = document.getElementById('f-business').value.trim();
+  const dob = document.getElementById('f-dob').value;
+  if (!name)    { toast('Pakiusap ilagay ang inyong pangalan.','red'); document.getElementById('f-name').focus(); return; }
+  if (!address) { toast('Pakiusap ilagay ang inyong address.','red'); document.getElementById('f-address').focus(); return; }
+  if (!dob)     { toast('Pakiusap ilagay ang inyong petsa ng kapanganakan.','red'); document.getElementById('f-dob').focus(); return; }
+  if (!purpose) { toast('Pakiusap ilagay ang layunin ng request.','red'); document.getElementById('f-purpose').focus(); return; }
+  if (selectedDocId==='BBC' && !biz) { toast('Pakiusap ilagay ang pangalan ng negosyo.','red'); return; }
+  showScreen('screen-attachment');
+}
+
+// ── Attachment preview helpers ──
+function previewAttachment(input) {
+  const file = input.files[0];
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) { toast('Ang file ay masyadong malaki. Max 5MB lang.','red'); input.value=''; return; }
+  const url = URL.createObjectURL(file);
+  document.getElementById('att-preview-img').src = url;
+  document.getElementById('att-preview-name').textContent = '✅ ' + file.name;
+  document.getElementById('att-preview').style.display = 'block';
+  document.getElementById('att-dropzone').style.display = 'none';
+}
+function clearAttachment() {
+  document.getElementById('f-attachment').value = '';
+  document.getElementById('att-preview').style.display = 'none';
+  document.getElementById('att-dropzone').style.display = 'block';
+}
+function handleAttachmentDrop(e) {
+  e.preventDefault();
+  document.getElementById('att-dropzone').style.borderColor = 'var(--border)';
+  const file = e.dataTransfer.files[0];
+  if (!file) return;
+  const input = document.getElementById('f-attachment');
+  const dt = new DataTransfer();
+  dt.items.add(file);
+  input.files = dt.files;
+  previewAttachment(input);
+}
+
+// ── Submit request ──
+async function submitRequest() {
+  const name    = document.getElementById('f-name').value.trim();
+  const address = document.getElementById('f-address').value.trim();
+  const purpose = document.getElementById('f-purpose').value.trim();
+  const contact = document.getElementById('f-contact').value.trim();
+  const dob     = document.getElementById('f-dob').value;
+  const biz     = document.getElementById('f-business').value.trim();
+
+  const d = DOC_TYPES[selectedDocId];
+  const finalPurpose = selectedDocId==='BBC' ? `${purpose} — Negosyo: ${biz}` : purpose;
+
+  // Upload attachment if provided
+  let attachmentUrl = '';
+  const fileInput = document.getElementById('f-attachment');
+  if (fileInput?.files?.length) {
+    try {
+      const fd = new FormData();
+      fd.append('file', fileInput.files[0]);
+      const up = await fetch(API+'/api/upload', { method:'POST', body:fd });
+      const upData = await up.json();
+      if (upData.url) attachmentUrl = upData.url;
+    } catch(e) { console.warn('Upload error:', e); }
+  }
+
+  setLoading(true);
+  try {
+    const res = await fetch(API+'/api/cert-requests', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        name, type:d.label, cert_id:selectedDocId,
+        purpose:finalPurpose, address, email:contact, dob, via:'Online', source:'portal',
+        attachment: attachmentUrl
+      })
+    });
+    const data = await res.json();
+    if (data.code) {
+      lastCode = data.code;
+      document.getElementById('conf-code').textContent = data.code;
+      document.getElementById('conf-code-mini').textContent = data.code;
+      document.getElementById('conf-summary').innerHTML =
+        `<strong>📋 Buod ng Request:</strong><br>
+         👤 Pangalan: <strong>${name}</strong><br>
+         📄 Dokumento: <strong>${d.label}</strong><br>
+         💰 Bayad: <strong>${d.fee}</strong><br>
+         📍 Address: ${address}<br>
+         🎯 Layunin: ${purpose}` +
+        (attachmentUrl ? `<br>📎 ID: <a href="${API+attachmentUrl}" target="_blank" style="color:var(--green);">Tingnan ang attachment</a>` : '');
+      showScreen('screen-confirm');
+      toast(`✅ Request ${data.code} na-submit!`,'green');
+    } else {
+      toast('May error sa pag-submit. Subukan ulit.','red');
+    }
+  } catch(e) {
+    toast('Hindi makakonekta sa server. Subukan ulit.','red');
+    console.error(e);
+  } finally {
+    setLoading(false);
+  }
+}
+
+// ── Check status ──
+async function checkStatus() {
+  const code = document.getElementById('status-code').value.trim().toUpperCase();
+  if (!code) { toast('Ilagay ang inyong reference code.','red'); return; }
+
+  setLoading(true);
+  const resultDiv = document.getElementById('status-result');
+  try {
+    const res = await fetch(API+'/api/portal/check', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ code })
+    });
+    const data = await res.json();
+    if (!data.found) {
+      resultDiv.style.display = 'block';
+      resultDiv.innerHTML = `<div class="alert alert-red" style="margin-top:8px;">
+        <span style="font-size:20px;">❓</span>
+        <div><strong>Hindi Nahanap</strong><br>Walang request na may code na "<strong>${code}</strong>". 
+        Tiyaking tama ang code o bisitahin ang Barangay Hall.</div>
+      </div>`;
+      return;
+    }
+    const r = data.request;
+    const statusMap = {
+      'Processing':     { label:'Pinoproseso', color:'var(--yellow)', badge:'badge-yellow' },
+      'Ready to Print': { label:'Handa na — Pumunta sa Barangay Hall', color:'var(--green)', badge:'badge-green' },
+      'Completed':      { label:'Nailabas na', color:'var(--blue)', badge:'badge-blue' },
+      'Blocked':        { label:'Hindi Approved', color:'var(--red)', badge:'badge-red' },
+    };
+    const s = statusMap[r.status] || { label:r.status, color:'var(--gray)', badge:'badge-gray' };
+
+    const steps = [
+      { label:'Request Natanggap', meta:r.requested, done:true },
+      { label:'Sinusuri ng Staff', meta:'Ino-verify ang requirements', done:r.status!=='Processing', current:r.status==='Processing' },
+      { label:'Isinasagawa ang Dokumento', meta:'', done:['Ready to Print','Completed'].includes(r.status) },
+      { label:'Handa para Kunin', meta:'Pumunta sa Barangay Hall at magdala ng valid ID', done:r.status==='Completed', current:r.status==='Ready to Print' },
+      { label:'Nailabas na', meta:'Dokumento ay inilabas na', done:r.status==='Completed' },
+    ];
+
+    resultDiv.style.display = 'block';
+    resultDiv.innerHTML = `
+      <div style="border:2px solid ${s.color}33;border-radius:var(--radius);overflow:hidden;margin-top:8px;">
+        <div style="background:${s.color}10;padding:14px 16px;border-bottom:1px solid ${s.color}22;display:flex;align-items:center;gap:12px;">
+          <div style="width:40px;height:40px;border-radius:50%;background:${s.color};display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">📋</div>
+          <div style="flex:1;">
+            <div style="font-weight:800;font-size:14px;">${r.type}</div>
+            <div style="font-size:11.5px;color:var(--text-muted);">Para kay: <strong>${r.name}</strong></div>
+          </div>
+          <span class="badge ${s.badge}">${s.label}</span>
+        </div>
+        <div style="padding:14px 16px;display:grid;grid-template-columns:1fr 1fr;gap:10px;border-bottom:1px solid var(--border);">
+          <div><div style="font-size:10px;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px;">Reference Code</div>
+          <div style="font-family:monospace;font-size:14px;font-weight:800;color:${s.color};">${r.code}</div></div>
+          <div><div style="font-size:10px;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px;">Petsa ng Request</div>
+          <div style="font-size:12.5px;font-weight:600;">${r.requested}</div></div>
+        </div>
+        <div style="padding:14px 16px;">
+          <div style="font-size:11px;font-weight:700;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em;">Tracking</div>
+          <div class="status-track">
+            ${steps.map(st=>`<div class="status-step">
+              <div class="status-dot ${st.done?'done':st.current?'current':''}">${st.done?'✓':st.current?'●':''}</div>
+              <div><div class="status-step-text ${st.done?'done':st.current?'current':''}">${st.label}</div>${st.meta?`<div class="status-step-meta">${st.meta}</div>`:''}</div>
+            </div>`).join('')}
+          </div>
+        </div>
+        ${r.status==='Ready to Print'?`<div style="padding:12px 16px;background:var(--green-light);border-top:1px solid var(--green-border);">
+          <strong style="color:var(--green-dark);">🎉 Handa na ang inyong dokumento!</strong><br>
+          <span style="font-size:12px;color:var(--green-dark);">Pumunta na sa Barangay Hall at magdala ng valid ID at reference code: <strong>${r.code}</strong></span>
+        </div>`:''}
+      </div>`;
+    toast(`✅ Request found — Status: ${s.label}`,'green');
+  } catch(e) {
+    resultDiv.style.display='block';
+    resultDiv.innerHTML='<div class="alert alert-red"><span>❌</span><div>Hindi makakonekta sa server. Subukan ulit.</div></div>';
+  } finally {
+    setLoading(false);
+  }
+}
+
+function goToStatus() {
+  document.getElementById('status-code').value = lastCode;
+  showScreen('screen-status');
+}
+function newRequest() {
+  sessionStorage.removeItem(_SK);
+  selectedDocId = null;
+  lastCode = '';
+  document.querySelectorAll('.cert-btn').forEach(b=>b.classList.remove('selected'));
+  document.getElementById('btn-proceed-doc').disabled = true;
+  document.getElementById('doc-selected-info').style.display = 'none';
+  ['f-name','f-address','f-contact','f-purpose','f-business'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.value='';
+  });
+  document.getElementById('f-dob').value='';
+  showScreen('screen-doctype');
+}
+
+// ═══ THEME TOGGLE ═══
+let _portalDark = false;
+function togglePortalTheme() {
+  _portalDark = !_portalDark;
+  document.body.classList.toggle('dark-mode', _portalDark);
+  const icon = document.getElementById('portal-theme-icon');
+  const label = document.getElementById('portal-theme-label');
+  if (icon)  icon.textContent  = _portalDark ? '☀️' : '🌙';
+  if (label) label.textContent = _portalDark ? 'Light Mode' : 'Dark Mode';
+  _saveSession();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const terms = document.getElementById('tnc-scroll');
+  if (terms) {
+    terms.innerHTML = `
+      <h3>SmartBrgy Online Portal Terms and Conditions</h3>
+      <p><em>Barangay Anabu I-G, Imus City, Cavite - Version 1.0, May 2025</em></p>
+      <h4>Purpose</h4>
+      <p>The SmartBrgy Online Portal allows residents to submit initial requests for barangay documents online. Submission through this portal does not automatically release a document; barangay staff must still verify the request and supporting information.</p>
+      <h4>Available Services</h4>
+      <ol><li>Barangay Clearance</li><li>Certificate of Residency</li><li>Certificate of Indigency</li><li>Barangay ID</li><li>First Time Jobseeker Certificate</li><li>Business Clearance</li></ol>
+      <h4>Eligibility and Verification</h4>
+      <p>You must be a resident of Barangay Anabu I-G, provide accurate information, and personally visit the Barangay Hall when required. Some documents may require good standing or additional validation before release.</p>
+      <h4>Data Privacy</h4>
+      <p>Barangay Anabu I-G collects your name, barangay address, contact number, requested document, and purpose only for processing, verification, status updates, and official barangay records. Your information will be handled under Republic Act 10173, the Data Privacy Act of 2012.</p>
+      <h4>Your Responsibilities</h4>
+      <ol><li>Provide true and complete information.</li><li>Do not use the portal for false, misleading, or unlawful requests.</li><li>Understand that online submission is subject to staff review and does not guarantee immediate approval.</li><li>Bring a valid ID and required documents when claiming the requested document.</li></ol>
+      <h4>Fees and Validity</h4>
+      <p>Applicable document fees are paid at the Barangay Hall. Online requests remain valid for 30 days from submission. After that period, a new request may be required.</p>
+      <h4>Contact</h4>
+      <p>For questions, visit Barangay Hall, Barangay Anabu I-G, Imus City, Cavite, Monday to Friday, 8:00 AM to 5:00 PM.</p>
+      <p style="margin-top:16px;font-size:11px;color:var(--text-muted);">Last updated: May 2025 | Version 1.0 | Barangay Anabu I-G</p>`;
+  }
+  const title = document.querySelector('#screen-terms .card-header h2');
+  const subtitle = document.querySelector('#screen-terms .card-header p');
+  const notice = document.getElementById('tnc-notice');
+  const label = document.querySelector('label[for="tnc-agree"]');
+  if (title) title.textContent = 'Terms and Conditions';
+  if (subtitle) subtitle.textContent = 'Please read carefully before requesting a document';
+  if (notice) notice.textContent = 'Scroll down to read all terms before confirming';
+  if (label) label.innerHTML = 'I have read and understood the <strong>Terms and Conditions</strong> of the SmartBrgy Portal. I agree to the collection and use of my personal information under <strong>Republic Act 10173 (Data Privacy Act of 2012)</strong> and Barangay Anabu I-G policies.';
+  const proceed = document.getElementById('btn-proceed-terms');
+  if (proceed) proceed.textContent = 'I Agree - Continue';
+
+  // Auto-save form fields on every keystroke
+  ['f-name','f-address','f-contact','f-purpose','f-business','f-dob'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', _saveSession);
+  });
+
+  // Restore session state after all DOM setup is done
+  _restoreSession();
+});
+</script>
+</body>
+</html>
