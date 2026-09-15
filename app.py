@@ -1399,17 +1399,8 @@ def serve_index():
 def serve_portal():
     return send_from_directory(BASE_DIR, 'portal.html')
 
-@app.route('/script.js')
-def serve_script():
-    return send_from_directory(BASE_DIR, 'script.js')
-
-@app.route('/db-connector.js')
-def serve_db_connector():
-    return send_from_directory(BASE_DIR, 'db-connector.js')
-
-@app.route('/style.css')
-def serve_style():
-    return send_from_directory(BASE_DIR, 'style.css')
+# script.js, db-connector.js, style.css, at anabu-logo.jpg ay nasa /static —
+# awtomatikong nasi-serve ni Flask sa /static/<filename> (default static_folder).
 
 
 # ══════════════════════════════════════════

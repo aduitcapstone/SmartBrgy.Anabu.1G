@@ -8,11 +8,13 @@ Sistema ng pamamahala ng barangay — para sa barangay staff.
 | File | Paggamit |
 |---|---|
 | `index.html` | Admin dashboard |
-| `script.js` | Lahat ng logic ng admin |
-| `style.css` | Estilo |
+| `static/script.js` | Lahat ng logic ng admin |
+| `static/style.css` | Estilo |
+| `static/db-connector.js` | Koneksyon sa backend API |
 | `app.py` | Flask backend API |
 | `requirements.txt` | Python dependencies |
 | `render.yaml` | Render.com deployment config |
+| `database/` | SQL dumps (dev/seed data) |
 
 ## Pag-setup (Local)
 
