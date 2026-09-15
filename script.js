@@ -423,44 +423,7 @@ function fillSample() {
   if (e) e.value = 'EMP-001';
   if (u) u.value = 'admin';
   if (p) p.value = 'Admin@1234!';
-  showToast('Sample credentials filled. Now click Scan Biometrics then SECURE LOGIN.', 'green');
-}
-
-// Track whether face scan passed this session
-let facePassed = false;
-// ── Face scan with SVG progress ring ──
-let faceScanning = false;
-function doFaceScan() {
-  if (faceScanning) return;
-  faceScanning = true;
-  facePassed = false;
-  const wrap = document.getElementById('face-scan-box');
-  const label = document.getElementById('face-scan-label');
-  const prog = document.getElementById('face-svg-progress');
-  const iconEl = document.getElementById('face-icon-svg');
-  if (!wrap) return;
-  wrap.className = 'lp-face-wrap scanning';
-  label.textContent = 'Scanning...';
-  const C = 264;
-  let pct = 0;
-  const iv = setInterval(() => {
-    pct += 3.5;
-    if (prog) prog.style.strokeDashoffset = C - (C * Math.min(pct,100) / 100);
-    label.textContent = 'Scanning... ' + Math.min(Math.round(pct),100) + '%';
-    if (pct >= 100) {
-      clearInterval(iv);
-      wrap.className = 'lp-face-wrap success';
-      label.textContent = 'Face Verified';
-      facePassed = true;
-      faceScanning = false;
-      if (prog) { prog.style.stroke = 'rgba(0,255,106,0.95)'; }
-      if (iconEl) {
-        iconEl.innerHTML = '<polyline points="20 6 9 17 4 12" stroke-width="2.5"/>';
-        iconEl.style.stroke = 'rgba(0,255,106,0.9)';
-      }
-      showToast('Face recognition passed! Now fill credentials and click SECURE LOGIN.', 'green');
-    }
-  }, 55);
+  showToast('Sample credentials filled. Now click SECURE LOGIN.', 'green');
 }
 
 async function doLoginCreds() {
@@ -471,11 +434,6 @@ async function doLoginCreds() {
   if (!empId) { showToast('Please enter your Employee ID.', 'red'); return; }
   if (!uname) { showToast('Please enter your username.', 'red'); return; }
   if (!pw)    { showToast('Please enter your password.', 'red'); return; }
-
-  if (!facePassed) {
-    showToast('Face Recognition required. Please click "Scan Biometrics" and complete the face scan first.', 'red');
-    return;
-  }
 
   // 1. Check hardcoded credentials first
   const match = VALID_CREDENTIALS.find(c =>
@@ -576,19 +534,6 @@ function doLogout() {
   document.getElementById('app').classList.remove('visible');
   const ls = document.getElementById('login-screen');
   ls.style.display = 'flex';
-  const box = document.getElementById('face-scan-box');
-  if (box) box.classList.remove('success', 'scanning');
-  const lbl = document.getElementById('face-scan-label');
-  if (lbl) lbl.textContent = 'Scan Biometrics';
-  const prog = document.getElementById('face-svg-progress');
-  if (prog) { prog.style.strokeDashoffset = '264'; prog.style.stroke = ''; }
-  const iconEl = document.getElementById('face-icon-svg');
-  if (iconEl) {
-    iconEl.innerHTML = '<circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>';
-    iconEl.style.stroke = 'rgba(0,255,106,0.8)';
-  }
-  facePassed = false;
-  faceScanning = false;
   const ei = document.getElementById('login-empid');
   if (ei) ei.value = '';
   document.getElementById('login-user').value = '';

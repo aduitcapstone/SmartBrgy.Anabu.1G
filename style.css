@@ -433,38 +433,6 @@ body.light-mode .badge-blue   { color: #1565A8; background: rgba(21,101,168,0.10
 }
 .lp-live-date { font-size:10.5px; color:rgba(255,255,255,0.38); margin-top:4px; letter-spacing:0.02em; }
 
-/* Face scan */
-.lp-face-wrap {
-  text-align:center; cursor:pointer; margin:16px 0 14px;
-  transition:opacity 0.2s;
-}
-.lp-face-wrap:hover { opacity:0.88; }
-.lp-face-ring { position:relative; width:84px; height:84px; margin:0 auto 10px; }
-.lp-face-svg { position:absolute; inset:0; transform:rotate(-90deg); }
-.lp-svg-track { fill:none; stroke:rgba(255,255,255,0.08); stroke-width:3.5; }
-.lp-svg-prog {
-  fill:none; stroke:rgba(0,255,106,0.85); stroke-width:3.5;
-  stroke-dasharray:264; stroke-dashoffset:264;
-  stroke-linecap:round; transition:stroke-dashoffset 0.08s linear;
-  filter:drop-shadow(0 0 4px rgba(0,255,106,0.45));
-}
-.lp-face-inner {
-  position:absolute; inset:10px; border-radius:50%;
-  background:rgba(0,255,106,0.06);
-  border:1px solid rgba(0,255,106,0.22);
-  display:flex; align-items:center; justify-content:center;
-  transition:all 0.3s;
-}
-.lp-face-wrap.scanning .lp-face-inner { border-color:rgba(42,126,211,0.6); background:rgba(42,126,211,0.08); }
-.lp-face-wrap.success .lp-face-inner { border-color:rgba(0,255,106,0.7); background:rgba(0,255,106,0.1); }
-.lp-face-label { font-size:12px; font-weight:700; color:rgba(0,255,106,0.85); letter-spacing:0.04em; text-transform:uppercase; }
-.lp-face-sub { font-size:10px; color:rgba(255,255,255,0.35); margin-top:3px; }
-
-/* Divider */
-.lp-divider { display:flex; align-items:center; gap:10px; margin:10px 0 13px; }
-.lp-divider::before, .lp-divider::after { content:''; flex:1; height:1px; background:rgba(255,255,255,0.1); }
-.lp-divider span { font-size:10.5px; color:rgba(255,255,255,0.3); white-space:nowrap; letter-spacing:0.02em; }
-
 /* Input fields */
 .lp-field {
   display:flex; align-items:center; gap:10px;
@@ -477,18 +445,6 @@ body.light-mode .badge-blue   { color: #1565A8; background: rgba(21,101,168,0.10
 .lp-field input { background:none; border:none; outline:none; flex:1; font-size:13px; color:#fff; }
 .lp-field input::placeholder { color:rgba(255,255,255,0.28); }
 .lp-field-icon { color:rgba(255,255,255,0.3); flex-shrink:0; }
-
-/* 2FA notice bar */
-.lp-2fa-notice {
-  display:flex; align-items:center; gap:6px;
-  margin-top:4px; padding:7px 11px;
-  background:rgba(0,255,106,0.05);
-  border:1px solid rgba(0,255,106,0.18);
-  border-radius:7px;
-  font-size:10.5px; color:rgba(0,255,106,0.72);
-  line-height:1.35;
-}
-.lp-2fa-notice strong { color:rgba(0,255,106,0.9); }
 
 /* Sample credentials hint */
 .lp-sample-hint {
