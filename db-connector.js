@@ -759,7 +759,6 @@ window.addEventListener('DOMContentLoaded', function() {
     if (loginScreen && appEl) {
       loginScreen.style.display = 'none';
       appEl.classList.add('visible');
-      if (typeof window.facePassed !== 'undefined') window.facePassed = true;
       // Restore access control
       const savedUser   = sessionStorage.getItem('smartbrgy_user') || 'Staff';
       const savedRole   = sessionStorage.getItem('smartbrgy_role') || 'Staff';

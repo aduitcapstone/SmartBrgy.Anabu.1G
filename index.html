@@ -145,26 +145,6 @@
         <div class="lp-live-date" id="login-date">—</div>
       </div>
 
-      <!-- Face Biometric -->
-      <div class="lp-face-wrap" id="face-scan-box" onclick="doFaceScan()">
-        <div class="lp-face-ring" id="lp-face-ring">
-          <svg class="lp-face-svg" viewBox="0 0 100 100">
-            <circle class="lp-svg-track" cx="50" cy="50" r="42"/>
-            <circle class="lp-svg-prog" id="face-svg-progress" cx="50" cy="50" r="42"/>
-          </svg>
-          <div class="lp-face-inner">
-            <svg id="face-icon-svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(0,255,106,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
-            </svg>
-          </div>
-        </div>
-        <div class="lp-face-label" id="face-scan-label">Scan Biometrics</div>
-        <div class="lp-face-sub">Click to authenticate via Face ID</div>
-      </div>
-
-      <!-- Divider -->
-      <div class="lp-divider"><span>or sign in with credentials</span></div>
-
       <!-- Inputs -->
       <div class="lp-field">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lp-field-icon"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M6 12h12M6 9h3M6 15h3"/></svg>
@@ -177,12 +157,6 @@
       <div class="lp-field">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lp-field-icon"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
         <input type="password" id="login-pass" placeholder="Strong password (8+ chars, A-z, 0-9, symbol)" autocomplete="off"/>
-      </div>
-
-      <!-- 2FA notice -->
-      <div class="lp-2fa-notice">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(0,255,106,0.7)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        <span>2FA Required: credentials <strong>AND</strong> Face Recognition — both must pass</span>
       </div>
 
       <!-- Sample credentials hint -->
@@ -198,7 +172,7 @@
       <div class="lp-sec-row">
         <div class="lp-sec-item">
           <div class="lp-sec-dot"></div>
-          <span>Multi-Factor Auth</span>
+          <span>Secure Login</span>
         </div>
         <div class="lp-sec-item">
           <div class="lp-sec-dot"></div>
