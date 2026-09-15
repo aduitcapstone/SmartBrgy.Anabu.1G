@@ -2151,7 +2151,7 @@ function renderSpecialGroups() {
   });
   container.innerHTML = '<div class="special-groups-grid">' +
     groups.map(g => `
-      <div class="special-group-card" style="border-color:${g.border};background:linear-gradient(135deg,${g.bg},var(--bg-card));">
+      <div class="special-group-card" style="border-color:${g.border};background:linear-gradient(135deg,${g.bg},var(--bg-card-tint));">
         <div class="sg-header">
           <div style="display:flex;align-items:center;gap:8px;">
             <span style="font-size:20px;">${g.icon}</span>

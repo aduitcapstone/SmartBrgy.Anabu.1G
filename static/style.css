@@ -23,6 +23,7 @@
   --bg-base: #060F1C;
   --bg-panel: #0A1929;
   --bg-card: rgba(11,29,53,0.9);
+  --bg-card-tint: rgba(11,29,53,0.9);
   --bg-glass: rgba(11,61,107,0.20);
   --bg-input: rgba(255,255,255,0.05);
 
@@ -63,25 +64,26 @@ body.light-mode {
   --blue-glow: rgba(21,101,168,0.18);
   --border-green: rgba(0,138,56,0.28);
 
-  --bg-base: #EEF3FA;
-  --bg-panel: #FFFFFF;
-  --bg-card: rgba(255,255,255,0.97);
-  --bg-glass: rgba(210,225,245,0.50);
-  --bg-input: rgba(0,0,0,0.04);
+  --bg-base: #D4DCE8;
+  --bg-panel: #EAEFF5;
+  --bg-card: rgba(234,239,245,0.97);
+  --bg-card-tint: #FFFFFF;
+  --bg-glass: rgba(180,198,222,0.50);
+  --bg-input: rgba(0,0,0,0.05);
 
-  --border: rgba(21,101,168,0.14);
-  --border-hover: rgba(21,101,168,0.30);
+  --border: rgba(21,101,168,0.18);
+  --border-hover: rgba(21,101,168,0.34);
 
-  --text-primary: #0A2540;
-  --text-secondary: rgba(10,37,64,0.68);
-  --text-muted: rgba(10,37,64,0.42);
+  --text-primary: #16324F;
+  --text-secondary: rgba(22,50,79,0.68);
+  --text-muted: rgba(22,50,79,0.42);
 
-  --shadow: 0 4px 24px rgba(0,0,0,0.08);
-  --sidebar-bg: #FFFFFF;
-  --topbar-bg: rgba(255,255,255,0.97);
-  --modal-bg: #FFFFFF;
-  --table-header: rgba(21,101,168,0.06);
-  --table-row-hover: rgba(21,101,168,0.04);
+  --shadow: 0 4px 24px rgba(0,0,0,0.12);
+  --sidebar-bg: #EAEFF5;
+  --topbar-bg: rgba(234,239,245,0.97);
+  --modal-bg: #EAEFF5;
+  --table-header: rgba(21,101,168,0.08);
+  --table-row-hover: rgba(21,101,168,0.06);
   --stat-card-bg: #FFFFFF;
   --senior-color: #C2720A;
   --senior-bg: rgba(194,114,10,0.08);
@@ -240,7 +242,7 @@ body.light-mode .badge-blue   { color: #1565A8; background: rgba(21,101,168,0.10
 
 /* CARD */
 .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 18px; margin-bottom: 14px; transition: background 0.3s; }
-.card.card-green { border-color: var(--border-green); background: linear-gradient(135deg, var(--green-dim), var(--bg-card)); }
+.card.card-green { border-color: var(--border-green); background: linear-gradient(135deg, var(--green-dim), var(--bg-card-tint)); }
 .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
 .card-title { font-size: 13px; font-weight: 700; color: var(--text-primary); }
 .card-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
@@ -665,7 +667,7 @@ body.light-mode .cabinet-body { background: linear-gradient(180deg, #cdd9ea 0%, 
 
 /* DEMOGRAPHIC SPECIAL GROUPS - ENHANCED */
 .special-group-card {
-  background: var(--bg-card); border: 1px solid var(--border);
+  background: var(--bg-card-tint); border: 1px solid var(--border);
   border-radius: var(--radius-lg); padding: 16px;
   display: flex; flex-direction: column;
   height: 150px;
@@ -799,7 +801,7 @@ body.light-mode .cabinet-body { background: linear-gradient(180deg, #cdd9ea 0%, 
 /* ═══ QR VERIFICATION — TWO-PURPOSE DESIGN ═══ */
 .qr-tab { transition: all .15s; }
 .qr-tab:hover { color: var(--text-primary) !important; }
-.card-blue { border-color: rgba(42,126,211,.25); background: linear-gradient(135deg, rgba(42,126,211,.06), var(--bg-card)); }
+.card-blue { border-color: rgba(42,126,211,.25); background: linear-gradient(135deg, rgba(42,126,211,.06), var(--bg-card-tint)); }
 
 /* QR DOCUMENT RESULT CARD */
 .qr-doc-verified {
