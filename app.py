@@ -18,8 +18,11 @@ app = Flask(__name__)
 # ─────────────────────────────────────────
 # CONFIGURATION
 # ─────────────────────────────────────────
-GMAIL_USER         = 'brgy.anabu.1g.imus@gmail.com'
-GMAIL_APP_PASSWORD = 'kdxdkejttsgyzonp'
+# GMAIL_USER / GMAIL_APP_PASSWORD ay galing sa environment variables —
+# huwag i-hardcode dito. I-set ang mga ito sa .env (lokal) o sa
+# environment variables ng hosting provider (production).
+GMAIL_USER         = os.environ.get('GMAIL_USER', 'brgy.anabu.1g.imus@gmail.com')
+GMAIL_APP_PASSWORD = os.environ.get('GMAIL_APP_PASSWORD', '')
 UPLOAD_FOLDER      = os.path.join(os.path.dirname(__file__), 'uploads')
 ALLOWED_EXTS       = {'png', 'jpg', 'jpeg', 'gif', 'pdf', 'heic', 'webp'}
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)

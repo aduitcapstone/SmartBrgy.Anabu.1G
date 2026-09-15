@@ -36,6 +36,22 @@ Ang `script.js` ay awtomatikong gagamit ng:
 - `http://localhost:5000` — kapag lokal na nag-te-test
 - `https://smartbrgy-api.onrender.com` — kapag live na
 
+## Environment Variables
+
+Kailangan i-set ang mga ito sa hosting provider (huwag i-hardcode sa `app.py`):
+
+| Variable | Paggamit |
+|---|---|
+| `GMAIL_USER` | Gmail address na magpapadala ng notification emails |
+| `GMAIL_APP_PASSWORD` | Gmail App Password (Google Account → Security → App Passwords) |
+
+Para sa lokal na testing, i-export muna bago patakbuhin ang `python app.py`:
+
+```bash
+export GMAIL_USER="your-email@gmail.com"
+export GMAIL_APP_PASSWORD="your-app-password"
+```
+
 ## Tandaan
 
 - Ang `smartbrgy.db` ay nasa `.gitignore` — **huwag i-commit** (personal na datos ng mga residente)
